@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background-color: #fff;
+  background-color: #f0fafb;
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   position: relative;
@@ -9,6 +9,7 @@ export const Container = styled.div`
   width: 678px;
   max-width: 100%;
   min-height: 400px;
+  margin-left: 50%;
 `;
 
 export const SignUpContainer = styled.div`
@@ -40,7 +41,7 @@ export const SignInContainer = styled.div`
 `;
 
 export const Form = styled.form`
-  background-color: #ffffff;
+  background-color: #f0fafb;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,32 +54,36 @@ export const Form = styled.form`
 export const Title = styled.h1`
   font-weight: bold;
   margin: 0;
+  max-width: 90%;
+  font-size: 35px;
+  margin-bottom: 15px;
 `;
 
 export const Input = styled.input`
-  background-color: #eee;
+  background-color: #d6d0d0;
   border: none;
+  border-radius: 10px;
   padding: 12px 15px;
-  margin: 8px 0;
+  margin: 4px 0;
   width: 100%;
 `;
 
 export const Button = styled.button`
   border-radius: 20px;
-  border: 1px solid #ff4b2b;
-  background-color: #ff4b2b;
-  color: #ffffff;
+  border: 1px solid #fff;
+  background-color: #0aabb1;
+  color: #fff;
   font-size: 12px;
   font-weight: bold;
   padding: 12px 45px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  transition: transform 80ms ease-in;
-  &:active{
-    transform: scale(0.95);
-  }
-  &:focus {
-    outline: none;
+  transition: all 300ms;
+  margin-top: 15px;
+  &:hover {
+    background: white;
+    color: #0aabb1;
+    border-color: #0aabb1;
   }
 `;
 export const GhostButton = styled(Button)`
@@ -127,7 +132,7 @@ export const OverlayPanel = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0 40px;
+  padding: 0 20px;
   text-align: center;
   top: 0;
   height: 100%;
@@ -138,12 +143,14 @@ export const OverlayPanel = styled.div`
 
 export const LeftOverlayPanel = styled(OverlayPanel)`
   transform: translateX(-20%);
+  background-color: #0aabb1;
   ${props => props.signinIn !== true ? `transform: translateX(0);` : null}
 `;
 
 export const RightOverlayPanel = styled(OverlayPanel)`
   right: 0;
   transform: translateX(0);
+  background-color: #0aabb1;
   ${props => props.signinIn !== true ? `transform: translateX(20%);` : null}
 `;
 
@@ -152,5 +159,6 @@ export const Paragraph = styled.p`
   font-weight: 100;
   line-height: 20px;
   letter-spacing: 0.5px;
-  margin: 20px 0 30px
+  margin: 20px 0 30px;
+  max-width: 70%;
 `;

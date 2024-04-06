@@ -5,46 +5,49 @@ function LogInPage() {
   const [signIn, toggle] = React.useState(true);
   return (
     <Components.Container>
+      {/* FORMULARIO DE REGISTRO */}
       <Components.SignUpContainer signinIn={signIn}>
         <Components.Form>
-          <Components.Title>Create Account</Components.Title>
-          <Components.Input type='text' placeholder='Name' />
-          <Components.Input type='email' placeholder='Email' />
-          <Components.Input type='password' placeholder='Password' />
-          <Components.Button>Sign Up</Components.Button>
+          <Components.Title>Registrate en BidSwift</Components.Title>
+          <Components.Input type='text' placeholder='Nombre completo' />
+          <Components.Input type='email' placeholder='Correo electrónico' />
+          <Components.Input type='text' placeholder='Nombre de usuario' />
+          <Components.Input type='password' placeholder='Contraseña' />
+          <Components.Button>Registrarse</Components.Button>
         </Components.Form>
       </Components.SignUpContainer>
 
+      {/* FORMULARIO DE INISIO DE SSESIÓN */}
       <Components.SignInContainer signinIn={signIn}>
         <Components.Form>
-          <Components.Title>Sign in</Components.Title>
-          <Components.Input type='email' placeholder='Email' />
-          <Components.Input type='password' placeholder='Password' />
-          <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
-          <Components.Button>Sigin In</Components.Button>
+          <Components.Title>Inicia sesión en BidSwift</Components.Title>
+          <Components.Input type='text' placeholder='Usuario' />
+          <Components.Input type='password' placeholder='Contraseña' />
+          <Components.Button>Iniciar sesión</Components.Button>
         </Components.Form>
       </Components.SignInContainer>
 
       <Components.OverlayContainer signinIn={signIn}>
         <Components.Overlay signinIn={signIn}>
-
+          {/* INICIAR SESIÓN CON CUENTA EXISTENTE */}
           <Components.LeftOverlayPanel signinIn={signIn}>
-            <Components.Title>Welcome Back!</Components.Title>
+            <Components.Title>¡Hola de nuevo!</Components.Title>
             <Components.Paragraph>
-              To keep connected with us please login with your personal info
+              Si ya posees una cueta, puedes iniciar sesión e ingresar a nuestra plataforma
             </Components.Paragraph>
             <Components.GhostButton onClick={() => toggle(true)}>
-              Sign In
+              Iniciar sesión
             </Components.GhostButton>
           </Components.LeftOverlayPanel>
 
+          {/* CREAR NUEVA CUENTA */}
           <Components.RightOverlayPanel signinIn={signIn}>
-            <Components.Title>Hello, Friend!</Components.Title>
+            <Components.Title>¡Bienvenido a BidSwift!</Components.Title>
             <Components.Paragraph>
-              Enter Your personal details and start journey with us
+              Si aún no tienes tu cuenta, puedes registrarte fácilmente para iniciar en nuestro mundo de subastas en línea
             </Components.Paragraph>
             <Components.GhostButton onClick={() => toggle(false)}>
-              Sigin Up
+              Crear cuenta
             </Components.GhostButton>
           </Components.RightOverlayPanel>
 
