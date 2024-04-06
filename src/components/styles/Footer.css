@@ -1,0 +1,73 @@
+.footer-container {
+    width: 100%;
+    background-color: #0aabb1;
+}
+
+.footer-container .group-1 {
+    width: 100%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 50px;
+    padding: 10px 0px;
+}
+
+.footer-container .group-1 .box figure {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-container .group-1 .box figure img {
+    width: 250px;
+}
+
+.footer-container .group-1 .box h2 {
+    color: #fff;
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+.footer-container .group-1 .box p {
+    color: #efefef;
+    margin-bottom: 5px;
+}
+
+.footer-container .group-1 .company a {
+    text-decoration: none;
+    color: #fff;
+    margin-bottom: 20px;
+    text-align: center;
+    transition: all 300ms ease;
+}
+
+.company {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-container .group-1 .company a:hover {
+    color: #8a4fff;
+}
+
+.footer-container .group-2 {
+    background-color: #0a1a2a;
+    padding: 15px 10px;
+    text-align: center;
+    color: #fff;
+}
+
+.footer-container .group-2 small {
+    font-size: 15px;
+}
+
+@media screen and (max-width: 800px) {
+    .footer-container .group-1 {
+        width: 90%;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 30px;
+        padding: 35px 0px;
+    }
+}
