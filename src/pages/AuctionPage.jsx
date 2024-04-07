@@ -14,12 +14,15 @@ function AuctionPage() {
 
   return (
     <div className="auction-container">
+
       <h1>{auctions[itemId].name}</h1>
+
       <div className="imgs-container">
         <button id="left" onClick={prevImg}>{'🡰'}</button>
         <img src={imgs[imgIndex]} alt="Reloj" />
         <button id="right" onClick={nextImg}>{'🡲'}</button>
       </div>
+
       <div className="bidding-container">
         <div className="history-container">
           <h3>Historial de pujas</h3>
@@ -27,11 +30,13 @@ function AuctionPage() {
             {bidsHistory.map((b, i) => <li key={i}>{b.userName} realizó una puja de ${b.value}</li>)}
           </ul>
         </div>
+
         <div className="bid-up-container">
           <input type="number" />
           <button>Pujar</button>
         </div>
       </div>
+
       <div className="detail-container">
         <h3>Detalles del producto</h3>
         <p><b>Fecha de incio de la subasta:</b> {auctions[itemId].startDate}</p>
@@ -40,6 +45,7 @@ function AuctionPage() {
         <p><b>Precio:</b> {auctions[itemId].price}</p>
         <p><b>Detalle:</b> {auctions[itemId].details}</p>
       </div>
+
     </div>
   )
 }

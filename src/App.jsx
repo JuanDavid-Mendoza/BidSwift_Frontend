@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import LogInPage from "./pages/LogInPage";
 import AuctionPage from "./pages/AuctionPage";
+import PurchasedPage from "./pages/PurchasedPage";
 
 const router = createBrowserRouter([
   {
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
   {
     path: "/auction/:itemId",
     element: <AuctionPage />,
+  },
+  {
+    path: "/purchased-products",
+    element: <PurchasedPage />,
   }
 ]);
 
