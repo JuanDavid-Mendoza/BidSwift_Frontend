@@ -1,22 +1,17 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-// import LandingPage from "./pages/LandingPage";
 import LogInPage from "./pages/LogInPage";
-// import NotFoundPage from "./pages/NotFoundPage";
+import AuctionPage from "./pages/AuctionPage";
 
 const router = createBrowserRouter([
-  // {
-  //   path: "/",
-  //   element: <LandingPage />,
-  // },
   {
     path: "/login",
     element: <LogInPage />,
   },
-  // {
-  //   path: "*",
-  //   element: <NotFoundPage />,
-  // },
+  {
+    path: "/auction/:itemId",
+    element: <AuctionPage />,
+  }
 ]);
 
 function App() {
