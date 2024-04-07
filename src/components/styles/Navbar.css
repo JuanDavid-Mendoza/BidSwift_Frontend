@@ -1,5 +1,6 @@
 .active{
-    background-color: #1d4ed8;
+    background-color: #fff;
+    color: #0aabb1;
 }
 
 nav {
@@ -8,7 +9,6 @@ nav {
     align-items: center;
     background-color: #0aabb1;
     color: white;
-    position: sticky;
     top: 0;
 }
 
@@ -77,6 +77,7 @@ nav .menu span {
 }
 
 .btn a:hover, .btn li:hover {
+    border: solid 1px #011627;
     background-color: #fff;
     color: #011627;
 }

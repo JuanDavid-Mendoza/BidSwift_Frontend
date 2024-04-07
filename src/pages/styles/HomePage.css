@@ -1,4 +1,15 @@
-.items {
+.auctions {
     margin: 20px;
-    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.tittle{
+    text-align: center;
+}
+
+.tittle h1{
+    font-size: 2rem;
 }

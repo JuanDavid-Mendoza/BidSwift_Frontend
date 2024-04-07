@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import url("https://fonts.googleapis.com/css?family=Ubuntu");
 
 .card * {
     box-sizing: border-box;
@@ -8,6 +8,7 @@
 
 h1 {
     font-size: 1.2rem;
+    color: #0aabb1;
     text-transform: capitalize;
 }
 
@@ -15,10 +16,16 @@ h1 {
     position: relative;
     border-radius: 5px;
     background-color: #f0fafb;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     height: 450px;
     overflow: hidden;
     width: 350px;
+    transform: scale(0.95);
+    transition: box-shadow 0.5s, transform 0.5s;
+}
+
+.card:hover {
+    transform: scale(1);
 }
 
 .card > figure {
@@ -37,19 +44,24 @@ h1 {
     position: absolute;
     top: 80%;
     width: 100%;
-    transition: box-shadow .3s ease-in-out,
-                top .3s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out, top 0.3s ease-in-out;
+}
+
+.all-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .card:hover .details {
-    box-shadow: 0 -5px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
     top: 30%;
 }
 
 .card .details > .min-details,
-.card .details > .options,
-.card .details > .options > .options-size,
-.card .details > .options > .options-colors {
+.card .details > .all-details,
+.card .details > .all-details > .all-details-size,
+.card .details > .all-details > .all-details-colors {
     margin-bottom: 20px;
 }
 
@@ -59,31 +71,33 @@ h1 {
 }
 
 .card .details > .min-details > h1 > span {
-    color: #7B7B7B;
+    color: #7b7b7b;
     display: block;
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: 400;
 }
 
-.card .details > .options h1 {
+.card .details > .all-details h1 {
     margin-bottom: 5px;
 }
 
 .card .btn {
-    background-color: #192a56;
+    background-color: #0aabb1;
     border-radius: 5px;
-    color: #FFF;
+    color: #fff;
     display: block;
     padding: 10px;
     text-align: center;
     text-decoration: none;
     text-transform: capitalize;
     width: 100%;
-    transition: box-shadow .3s ease-in-out,
-                transform .3s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .card .btn:hover {
-  box-shadow: 0 5px 10px rgba(0,0,0,.3);
-  transform: translateY(-2px);
+    background-color: #fff;
+    color: #0aabb1;
+    border: solid 1px #0aabb1;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
 }

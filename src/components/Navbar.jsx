@@ -24,7 +24,7 @@ const Navbar = () => {
             <ul className={menuOpen ? "open" : ""}>
                 <div className="links">
                     <li>
-                        <NavLink to="/">Inicio</NavLink>
+                        <NavLink to="/home">Inicio</NavLink>
                     </li>
                     <li>
                         <NavLink to="/">Publicar Subasta</NavLink>
@@ -33,7 +33,7 @@ const Navbar = () => {
                         <NavLink to="/">Historial Publicados</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/">Historial Adquiridos</NavLink>
+                        <NavLink to="/purchased-products">Historial Adquiridos</NavLink>
                     </li>
                     <li>
                         <NavLink to="/">Cuenta</NavLink>
