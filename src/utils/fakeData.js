@@ -95,61 +95,61 @@ export const auctions = [
 export const bids = [
   {
     id: 1,
-    auctionId: 4,
+    auctionId: 5,
     value: 800000,
     userName: 'DonArturo5896'
   },
   {
     id: 2,
-    auctionId: 4,
+    auctionId: 5,
     value: 820000,
     userName: 'Hernando777'
   },
   {
     id: 3,
-    auctionId: 4,
+    auctionId: 5,
     value: 850000,
     userName: 'Hernando777'
   },
   {
     id: 4,
-    auctionId: 4,
+    auctionId: 5,
     value: 870000,
     userName: 'Hernando777'
   },
   {
     id: 5,
-    auctionId: 4,
+    auctionId: 5,
     value: 950000,
     userName: 'DonArturo5896'
   },
   {
     id: 6,
-    auctionId: 4,
+    auctionId: 5,
     value: 1000000,
     userName: 'Hernando777'
   },
   {
     id: 7,
-    auctionId: 4,
+    auctionId: 5,
     value: 1100000,
     userName: 'DonArturo5896'
   },
   {
     id: 8,
-    auctionId: 4,
+    auctionId: 5,
     value: 1200000,
     userName: 'Hernando777'
   },
   {
     id: 9,
-    auctionId: 4,
+    auctionId: 5,
     value: 1250000,
     userName: 'DonArturo5896'
   },
   {
     id: 10,
-    auctionId: 4,
+    auctionId: 5,
     value: 1350000,
     userName: 'Hernando777'
   },
@@ -202,3 +202,11 @@ export const purchasedProducts = [
     state: 'En espera'
   }
 ]
+
+export const user = {
+  name: "Pepito Perez",
+  email: "pepito.perez@yopmail.com",
+  userName: "Pepito",
+  password: "12345",
+  balance: 2000000,
+}
