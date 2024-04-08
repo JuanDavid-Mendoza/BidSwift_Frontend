@@ -83,6 +83,7 @@ h1 {
 
 .card .btn {
     background-color: #0aabb1;
+    cursor: pointer;
     border-radius: 5px;
     color: #fff;
     display: block;

@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import AuctionPage from "./pages/AuctionPage";
 import PublishAuctionPage from "./pages/PublishAuctionPage";
 import PurchasedPage from "./pages/PurchasedPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     {
         path: "/purchased-products",
         element: <PurchasedPage />,
+    },
+    {
+        path: "*",
+        element: <NotFoundPage />,
     },
 ]);
 
