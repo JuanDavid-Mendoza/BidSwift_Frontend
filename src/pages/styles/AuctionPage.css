@@ -13,8 +13,16 @@
 }
 
 .auction-container h1 {
-  width: 100%;
-  text-align: center;
+  width: 60%;
+  text-align: left;
+  margin: 0;
+  color: #0aabb1;
+  font-size: 25px;
+}
+
+#timer {
+  width: 30%;
+  text-align: right;
   margin: 0;
   color: #0aabb1;
 }
@@ -37,7 +45,7 @@
 }
 
 .imgs-container img {
-  max-height: 420px;
+  max-height: 300px;
   width: auto;
   max-width: 350px;
 }
