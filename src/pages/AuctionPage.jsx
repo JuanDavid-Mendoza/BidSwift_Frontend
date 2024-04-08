@@ -4,6 +4,7 @@ import { auctions, bids, user } from '../utils/fakeData';
 import { useEffect, useRef, useState } from 'react';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { ToastContainer, toast } from "react-toastify";
 
 function AuctionPage() {
   const [imgIndex, setImgIndex] = useState(0);
@@ -14,6 +15,18 @@ function AuctionPage() {
   const userBidButton = useRef(null);
   const timer = useRef(null);
   const [countdown, setCountdown] = useState(auction.timer);
+  const warnMessage = (message) => {
+    toast.warn(message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
 
   const prevImg = () => { setImgIndex(imgIndex === 0 ? auction.images.length - 1 : imgIndex - 1) }
   const nextImg = () => { setImgIndex(imgIndex === auction.images.length - 1 ? 0 : imgIndex + 1) }
@@ -26,10 +39,19 @@ function AuctionPage() {
 
       return () => clearInterval(timer);
     } else {
-      alert('Finalizó la subasta.')
+      toast.info('La subasta ha finalizado.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       userBid.current.style.visibility = 'hidden';
       userBidButton.current.style.visibility = 'hidden';
-      timer.current.innerText = bidsHistory.length 
+      timer.current.innerText = bidsHistory.length
         ? `${bidsHistory[0].userName} adquiere el producto por $${bidsHistory[0].value}`
         : `Ha finalizado la subasta, no se realizaron pujas`
     }
@@ -47,19 +69,19 @@ function AuctionPage() {
 
     if (!userBidValue) {
       isCorrect = false;
-      alert('Ingrese un valor para pujar.');
+      warnMessage('Ingrese un valor para pujar.');
     }
     if (isCorrect && userBidValue > user.balance) {
       isCorrect = false;
-      alert('Saldo insuficiente.');
+      warnMessage('Saldo insuficiente.');
     }
     if (isCorrect && userBidValue < auction.price) {
       isCorrect = false;
-      alert('Debes ingresar un valor superior al precio inicial del producto.');
+      warnMessage('Debes ingresar un valor superior al precio inicial del producto.');
     }
     if (isCorrect && bidsHistory[0] && userBidValue <= bidsHistory[0].value) {
       isCorrect = false;
-      alert('Debes ingresar un valor superior a la última puja.');
+      warnMessage('Debes ingresar un valor superior a la última puja.');
     }
 
     if (isCorrect) {
@@ -71,6 +93,16 @@ function AuctionPage() {
       };
       setBidsHistory([currentBid, ...bidsHistory]);
       user.balance -= currentBid.value;
+      toast.success('Puja exitosa.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
 
@@ -115,6 +147,7 @@ function AuctionPage() {
       </div>
 
       <Footer />
+      <ToastContainer />
     </>
   )
 }
