@@ -28,17 +28,10 @@ export default class DBConnection {
     try {
       const result = await this.connection.query(sql);
 
-      return result.rows;
+      return result;
     } catch (error) {
+      console.log(error)
       throw error;
-    } finally {
-      if (this.connection) {
-        try {
-          await this.connection.end();
-        } catch (error) {
-          console.error('Error al cerrar la conexión:', error);
-        }
-      }
     }
   }
 }
