@@ -8,7 +8,6 @@ export default class GetAuctionsService {
 
   public async getAll(): Promise<AuctionModel[]> {
     const auctions: AuctionModel[] = await this.getAuctions.getAll();
-    console.log(auctions)
     
     if (auctions.length) {
       const productIds: string = auctions.map(a => a.productId).join(',');

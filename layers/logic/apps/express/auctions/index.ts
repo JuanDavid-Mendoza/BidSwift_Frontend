@@ -5,7 +5,7 @@ import AuctionController from './auctions';
 const auctionController: AuctionController = new AuctionController();
 
 const auctionRouter: Router = Router();
-const auctionsPath: string = '/Auctions';
+const auctionsPath: string = '/auctions';
 
 /* Auctions */
 auctionRouter.post(`${auctionsPath}/create`, auctionController.createAuction);
