@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import './styles/AuctionPage.css'
-import { auctions, bids, user } from '../utils/fakeData';
+import { auctions, bids, user } from '../../utils/fakeData';
 import { useEffect, useRef, useState } from 'react';
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Footer from '../../shared/components/Footer';
+import Navbar from '../../shared/components/Navbar';
 import { ToastContainer, toast } from "react-toastify";
 
 function AuctionPage() {
@@ -120,7 +120,6 @@ function AuctionPage() {
           <img src={auction.images[imgIndex]} alt="Reloj" />
           <button id="right" onClick={nextImg}>{'🡲'}</button>
         </div>
-
         <div className="bidding-container">
           <div className="history-container">
             <h3>Historial de pujas</h3>

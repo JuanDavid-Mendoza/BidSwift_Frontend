@@ -1,7 +1,7 @@
 import './styles/PurchasedPage.css'
-import { purchasedProducts } from '../utils/fakeData';
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
+import { purchasedProducts } from '../../utils/fakeData';
+import Footer from '../../shared/components/Footer';
+import Navbar from '../../shared/components/Navbar';
 import { useNavigate } from "react-router-dom";
 
 function PurchasedPage() {

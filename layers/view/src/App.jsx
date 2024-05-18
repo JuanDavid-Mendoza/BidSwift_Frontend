@@ -1,12 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import LandingPage from "./pages/LandingPage";
-import LogInPage from "./pages/LogInPage";
-import HomePage from "./pages/HomePage";
-import AuctionPage from "./pages/AuctionPage";
-import PublishAuctionPage from "./pages/PublishAuctionPage";
-import PurchasedPage from "./pages/PurchasedPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import LandingPage from "./shared/pages/LandingPage"
+import LogInPage from "./auth/pages/LogInPage";
+import HomePage from "./auctions/pages/HomePage";
+import AuctionPage from "./auctions/pages/AuctionPage";
+import PublishAuctionPage from "./auctions/pages/PublishAuctionPage";
+import PurchasedPage from "./shipments/pages/PurchasedPage";
+import NotFoundPage from "./shared/pages/NotFoundPage";
 
 const router = createBrowserRouter([
     {

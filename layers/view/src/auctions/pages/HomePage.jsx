@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Footer from '../../shared/components/Footer';
+import Navbar from '../../shared/components/Navbar';
 import AuctionCard from "../components/AuctionCard";
 
 import "./styles/HomePage.css";
 
-import { auctions as auctionsData } from "../utils/fakeData";
+import { auctions as auctionsData } from "../../utils/fakeData";
 
 function HomePage() {
     const [auctions, setAuctions] = useState(auctionsData);

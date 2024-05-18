@@ -3,8 +3,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./styles/PublishAuctionPage.css";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Footer from '../../shared/components/Footer';
+import Navbar from '../../shared/components/Navbar';
 import FileInput from "../components/FileInput";
 
 function PublishAuctionPage() {

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import * as Components from '../components/LogInComponents';
-import { user } from "../utils/fakeData";
+import { user } from "../../utils/fakeData";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
