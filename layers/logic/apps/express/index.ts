@@ -7,6 +7,7 @@ dotenv.config();
 import { userRouter } from './users';
 import { auctionRouter } from './auctions';
 import { bidRouter } from './bids';
+import { purchaseRouter } from './purchases';
 
 const app = express();
 const port = '3030';
@@ -16,7 +17,7 @@ app.use(cors());
 app.options('*', cors());
 
 // Routes
-app.use(userRouter, auctionRouter, bidRouter);
+app.use(userRouter, auctionRouter, bidRouter, purchaseRouter);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

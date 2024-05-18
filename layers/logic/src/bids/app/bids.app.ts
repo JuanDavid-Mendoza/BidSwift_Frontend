@@ -1,21 +1,21 @@
-import AuctionModel from '../domain/models/bid.model';
-import PersistAuctionService from '../domain/services/persistBid.service';
-import GetAuctionsService from '../domain/services/getBids.service';
-import PersistAuctionMysql from '../infra/persistBid.mysql';
-import GetAuctionsMysql from '../infra/getBids.mysql';
+import BidModel from '../domain/models/bid.model';
+import PersistBidService from '../domain/services/persistBid.service';
+import GetBidsService from '../domain/services/getBids.service';
+import PersistBidMysql from '../infra/persistBid.mysql';
+import GetBidsMysql from '../infra/getBids.mysql';
 
-export default class CrudAuctionsApp {
-  public async create(data: AuctionModel) {
-    const persistAuctionService: PersistAuctionService = new PersistAuctionService(
-      new PersistAuctionMysql(),
-      new GetAuctionsMysql(),
+export default class CrudBidsApp {
+  public async create(data: BidModel) {
+    const persistBidService: PersistBidService = new PersistBidService(
+      new PersistBidMysql(),
+      new GetBidsMysql(),
     );
 
-    return persistAuctionService.create(data);
+    return persistBidService.create(data);
   }
 
   public async getByAuctionId(auctionId: number) {
-    const getAuctionsService: GetAuctionsService = new GetAuctionsService(new GetAuctionsMysql());
-    return getAuctionsService.getByAuctionId(auctionId);
+    const getBidsService: GetBidsService = new GetBidsService(new GetBidsMysql());
+    return getBidsService.getByAuctionId(auctionId);
   }
 }
