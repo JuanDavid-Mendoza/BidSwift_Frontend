@@ -5,8 +5,8 @@ import PersistUserMysql from '../infra/persistUser.mysql';
 import GetUsersMysql from '../infra/getUsers.mysql';
 
 export default class CrudUsersApp {
-  public create(data: UserModel) {
-    const persistUserService = new PersistUserService(
+  public async create(data: UserModel) {
+    const persistUserService: PersistUserService = new PersistUserService(
       new PersistUserMysql(),
       new GetUsersMysql(),
     );
@@ -14,8 +14,8 @@ export default class CrudUsersApp {
     return persistUserService.create(data);
   }
 
-  async logIn(email: string, password: string) {
-    const getUsersService = new GetUsersService(new GetUsersMysql());
+  public async logIn(email: string, password: string) {
+    const getUsersService: GetUsersService = new GetUsersService(new GetUsersMysql());
     return getUsersService.logIn(email, password);
   }
 }

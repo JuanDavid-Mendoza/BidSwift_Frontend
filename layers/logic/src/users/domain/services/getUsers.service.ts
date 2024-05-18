@@ -3,9 +3,9 @@ import AccountModel from '../models/account.model';
 import UserModel from '../models/user.model';
 
 export default class GetUsersService {
-  constructor(private getUsers: GetUsersMysql) {}
+  public constructor(private getUsers: GetUsersMysql) {}
 
-  async logIn(email: string, password: string): Promise<UserModel> {
+  public async logIn(email: string, password: string): Promise<UserModel> {
     const user: UserModel = await this.getUsers.byEmail(email);
     
     if(user && user.password === password) {
