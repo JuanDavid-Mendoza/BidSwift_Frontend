@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 import Modal from "react-modal";
 // import { useBalance } from '../contexts/BalanceContext'; // Importa el hook del contexto
 
 import "./styles/RechargeModal.css";
 
-import { RechargeMethod } from "../RechargeMethod";
 import { NequiRechargeMethod } from "../NequiRechargeMethod";
 import { PSERechargeMethod } from "../PSERechargeMethod";
 import { PayPalRechargeMethod } from "../PaypalRechargeMethod";
+import { GlobalContext } from "../../utils/GlobalContext";
 
 const RechargeModal = ({ isOpen, onClose }) => {
+    const { user } = useContext(GlobalContext);
     const [amount, setAmount] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("");
-    const [balance, setBalance] = useState(2); // Usa el hook del contexto
+    const [balance, setBalance] = useState(parseFloat(user.account.balance));
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -33,8 +34,13 @@ const RechargeModal = ({ isOpen, onClose }) => {
             return;
         }
 
-        const url = rechargeMethod.recharge(parseFloat(amount));
-        window.open(url, '_blank');
+        const url = rechargeMethod.recharge(parseFloat(amount), user);
+        setBalance(parseFloat(user.account.balance) + parseFloat(amount))
+        setAmount('');
+        setPaymentMethod('');
+        setUsername('');
+        setPassword('');
+        if (url) window.open(url, '_blank');
         onClose();
     };
 
@@ -44,7 +50,7 @@ const RechargeModal = ({ isOpen, onClose }) => {
                 <div>
                     <label>
                         {paymentMethod === "Nequi" ? "Número de celular Nequi" : "Nombre de usuario " + paymentMethod}:
-                        <input type={paymentMethod === "Nequi" ? 'number':'email'} value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <input type={paymentMethod === "Nequi" ? 'number' : 'email'} value={username} onChange={(e) => setUsername(e.target.value)} />
                     </label>
                     <label>
                         Contraseña {paymentMethod}:

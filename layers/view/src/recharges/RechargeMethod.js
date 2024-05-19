@@ -14,8 +14,9 @@ export class RechargeMethod {
      * @method recharge
      * @description Método para recargar el saldo.
      * @param {number} amount - La cantidad a recargar.
+     * @param {UserModel} user - El usuario que hace la recarga.
      */
-    recharge(amount) {
+    recharge(amount, user) {
         throw new Error("El método 'recargar' debe ser implementado");
     }
 }
