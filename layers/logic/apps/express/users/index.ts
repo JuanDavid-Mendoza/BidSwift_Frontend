@@ -9,6 +9,7 @@ const usersPath: string = '/users';
 
 /* Users */
 userRouter.post(`${usersPath}/create`, userController.createUser);
+userRouter.put(`${usersPath}/update`, userController.updateUser);
 userRouter.get(`${usersPath}/logIn`, userController.logIn);
 
 export { userRouter };

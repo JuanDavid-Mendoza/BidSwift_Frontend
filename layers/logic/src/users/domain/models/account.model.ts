@@ -3,9 +3,9 @@ export default class AccountModel {
   
   status: boolean;
 
-  reducedcost: boolean;
+  reducedCost: boolean;
 
   balance: number;
 
-  userid: number;
+  userId: number;
 }

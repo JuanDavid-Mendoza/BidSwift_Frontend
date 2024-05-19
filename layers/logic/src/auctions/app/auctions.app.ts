@@ -18,4 +18,9 @@ export default class CrudAuctionsApp {
     const getAuctionsService: GetAuctionsService = new GetAuctionsService(new GetAuctionsMysql());
     return getAuctionsService.getAll();
   }
+  
+  public async getByAccountId(accountId: number) {
+    const getAuctionsService: GetAuctionsService = new GetAuctionsService(new GetAuctionsMysql());
+    return getAuctionsService.getByAccountId(accountId);
+  }
 }

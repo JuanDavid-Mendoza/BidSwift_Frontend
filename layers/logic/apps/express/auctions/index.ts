@@ -10,5 +10,6 @@ const auctionsPath: string = '/auctions';
 /* Auctions */
 auctionRouter.post(`${auctionsPath}/create`, auctionController.createAuction);
 auctionRouter.get(`${auctionsPath}/getAll`, auctionController.getAll);
+auctionRouter.get(`${auctionsPath}/getByAccountId`, auctionController.getByAccountId);
 
 export { auctionRouter };

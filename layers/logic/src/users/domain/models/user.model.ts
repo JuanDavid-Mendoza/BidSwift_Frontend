@@ -5,7 +5,7 @@ export default class UserModel {
   
   names: string;
 
-  lastnames: string;
+  lastNames: string;
 
   email: string;
 

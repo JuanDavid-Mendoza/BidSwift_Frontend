@@ -18,4 +18,14 @@ export default class PersistUserService {
 
     return createdUser + createdAccount;
   }
+
+  public async update(data: UserModel): Promise<number> {
+    const previous: UserModel = await this.getUsers.byId(data.id);
+    if (!previous) throw new Error('El usuario no existe en el sistema');
+    
+    await this.persistUser.update(data)
+    if (data.account) await this.persistUser.updateAccount(data.account);
+
+    return data.id;
+  }
 }

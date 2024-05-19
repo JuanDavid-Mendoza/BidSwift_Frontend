@@ -22,4 +22,21 @@ export default class GetAuctionsService {
 
     return auctions;
   }
+
+  public async getByAccountId(accountId: number): Promise<AuctionModel[]> {
+    const auctions: AuctionModel[] = await this.getAuctions.getByAccountId(accountId);
+    
+    if (auctions.length) {
+      const productIds: string = auctions.map(a => a.productId).join(',');
+      const products: ProductModel[] = await this.getAuctions.getProductByIds(productIds);
+      const images: ImageModel[] = await this.getAuctions.getImagesByProductIds(productIds);
+
+      auctions.forEach(auction => {
+        auction.product = products.find(p => p.id = auction.productId) as any;
+        auction.product.images = images.filter(i => i.productId = auction.productId);
+      });
+    }
+
+    return auctions;
+  }
 }

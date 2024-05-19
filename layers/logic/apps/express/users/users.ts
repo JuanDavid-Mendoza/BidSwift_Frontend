@@ -10,7 +10,18 @@ export default class UserController {
     } catch (e) {
       return res.status(500).json({ error: e });
     }
-  };
+  }
+
+  public async updateUser(req: Request, res: Response) { 
+    try {
+      const crudUsers: CrudUsersApp = new CrudUsersApp();
+      const data = await crudUsers.update(req.body);
+      return data ? res.status(200).json(data) : res.status(200).json();
+    } catch (e) {
+      return res.status(500).json({ error: e });
+    }
+  }
+
   public async logIn(req: Request, res: Response) {
     try {
       const params = req.query as any || {};
@@ -20,5 +31,5 @@ export default class UserController {
     } catch (e) {
       return res.status(500).json({ error: e });
     }
-  };
+  }
 }

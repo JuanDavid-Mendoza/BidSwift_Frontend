@@ -12,6 +12,14 @@ export default class GetAuctionsMysql {
     return auction;
   }
 
+  async getByAccountId(accountId: number): Promise<AuctionModel[]> {
+    const auction: AuctionModel[] = await DBConnection.getInstance().executeQuery(
+      `SELECT *, productid as "productId" FROM "Auction" WHERE ownerid = ${accountId}`
+    ).then(r => r.rows);
+
+    return auction;
+  }
+
   async getProductByIds(productIds: string): Promise<ProductModel[]> {
     const products: ProductModel[] = await DBConnection.getInstance().executeQuery(
       `SELECT * FROM "Product"

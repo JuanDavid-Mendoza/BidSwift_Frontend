@@ -18,4 +18,13 @@ export default class CrudUsersApp {
     const getUsersService: GetUsersService = new GetUsersService(new GetUsersMysql());
     return getUsersService.logIn(email, password);
   }
+
+  public async update(data: UserModel) {
+    const persistUserService: PersistUserService = new PersistUserService(
+      new PersistUserMysql(),
+      new GetUsersMysql(),
+    );
+
+    return persistUserService.update(data);
+  }
 }
