@@ -3,9 +3,30 @@ import { purchasedProducts } from '../../utils/fakeData';
 import Footer from '../../shared/components/Footer';
 import Navbar from '../../shared/components/Navbar';
 import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from 'react';
+import { GlobalContext } from '../../utils/GlobalContext';
+import { GetMethod } from '../../shared/GetMethod';
 
 function PurchasedPage() {
   const navigate = useNavigate();
+  const [purchases, setPurchases] = useState([]);
+  const { user } = useContext(GlobalContext);
+  const accountId = user.account.id;
+
+  const getPurchases = async () => {
+    const purchasesResult = await new GetMethod().execute(`http://localhost:3030/purchases/getByAccountId?accountId=${accountId}`);
+    setPurchases(purchasesResult.map(p => ({
+      name: p.productName,
+      description: p.productDescription,
+      startDate: p.startDate,
+      price: p.productPrice,
+      principalImage: p.productImage,
+    })));
+  }
+
+  useEffect(() => {
+    getPurchases();
+  }, []);
 
   return (
     <>
@@ -15,7 +36,7 @@ function PurchasedPage() {
 
         <h1>Tus productos adquiridos</h1>
 
-        {purchasedProducts.map((p, i) => <div key={i} className="purchased-product">
+        {purchases.map((p, i) => <div key={i} className="purchased-product">
 
           <div className="img-container">
             <img src={p.principalImage} alt={p.name} />

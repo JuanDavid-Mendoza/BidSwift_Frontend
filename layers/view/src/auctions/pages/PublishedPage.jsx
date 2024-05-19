@@ -16,23 +16,21 @@ import { ProductModel } from '../../shared/models/ProductModel';
 
 function PublishedPage() {
     const navigate = useNavigate();
-    const [purchases, setPurchases] = useState([]);
     const [auctions, setAuctions] = useState([]);
     const { setCurrentAuction, user } = useContext(GlobalContext);
     const accountId = user.account.id;
 
     const getPurchases = async () => {
-        const purchasesResult = await new GetMethod().execute(`http://localhost:3030/purchases/getByAccountId?accountId=${accountId}`);
         const auctionsResult = await new GetMethod().execute(`http://localhost:3030/auctions/getByAccountId?accountId=${accountId}`);
-        setPurchases(purchasesResult.map(p => ({
-            name: p.productName,
-            description: p.productDescription,
-            startDate: p.startDate,
-            price: p.productPrice,
-            image: p.productImage,
-            productId: p.productId,
+        setAuctions(auctionsResult.map(a => ({
+            name: a.product.name,
+            description: a.product.description,
+            details: a.product.details,
+            startDate: a.startdate,
+            price: a.product.price,
+            image: a.product.images[0].url,
+            images: a.product.images.map(i => i.url),
         })));
-        setAuctions(auctionsResult);
     }
 
     useEffect(() => {
@@ -42,19 +40,18 @@ function PublishedPage() {
     /**
      * @function cloneAuction
      * @description Clona una subasta.
-     * @param {number} productId - El id del producto de la subasta a clonar.
+     * @param {AuctionModel} auction - Subasta a clonar.
      */
-    const cloneAuction = (productId) => {
-        const auction = auctions.find(a => a.productId == productId);
+    const cloneAuction = (auction) => {
         const productToClone = new ProductModel(
             null,
-            auction.product.name,
-            auction.product.description,
-            auction.product.price,
-            auction.product.details,
-            auction.product.images,
+            auction.name,
+            auction.description,
+            auction.price,
+            auction.details,
+            auction.images,
         );
-        const auctionToClone = new AuctionModel(null, auction.startdate, null, null, null, null, null, productToClone);
+        const auctionToClone = new AuctionModel(null, auction.startDate, null, null, null, null, null, productToClone);
         const clonedAuction = auctionToClone.clone();
         setCurrentAuction(clonedAuction);
         navigate(`/publish-auction`);
@@ -68,31 +65,31 @@ function PublishedPage() {
 
                 <h1>Subastas Hechas</h1>
 
-                {purchases.map((p, i) => <div key={i} className="purchased-product">
+                {auctions.map((a, i) => <div key={i} className="purchased-product">
 
                     <div className="img-container">
-                        <img src={p.image} alt={p.name} />
+                        <img src={a.image} alt={a.name} />
                     </div>
 
                     <div className="product-data-container">
-                        <h3>Información del producto</h3>
+                      <h3>Información del producto</h3>
                         <ul>
-                            <li><b>Nombre:</b> {p.name}</li>
-                            <li><b>Descripción:</b> {p.description}</li>
+                            <li><b>Nombre:</b> {a.name}</li>
+                            <li><b>Descripción:</b> {a.description}</li>
                         </ul>
                     </div>
 
                     <div className="auction-data-container">
                         <h3>Información de la subasta</h3>
                         <ul>
-                            <li><b>Fecha de inicio de la subasta:</b> {p.startDate}</li>
-                            <li><b>Precio final:</b> {p.price}</li>
+                            <li><b>Fecha de inicio de la subasta:</b> {a.startDate}</li>
+                            <li><b>Precio final:</b> {a.price}</li>
                         </ul>
                     </div>
 
                     <div className="options-container">
                         <h3>Opciones</h3>
-                        <button onClick={() => cloneAuction(p.productId)}>Copiar Subasta</button>
+                        <button onClick={() => cloneAuction(a)}>Copiar Subasta</button>
                     </div>
 
                 </div>)}
