@@ -1,8 +1,14 @@
 import React, { useRef } from "react";
 import * as Components from '../components/LogInComponents';
-import { user } from "../utils/fakeData";
+import { user } from "../../utils/fakeData";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+
+import {Authenticator} from "../Authenticator";
+import VerificationLog from "../VerificationLog";
+import VerificationSign from "../VerificationSign";
+import LogIn from "../LogIn";
+import SignUp from "../SignUp"; 
 
 function LogInPage() {
   const [signin, toggle] = React.useState('true');
@@ -14,6 +20,7 @@ function LogInPage() {
     event.preventDefault();
     if (userNameRef.current.value === user.userName && passwordRef.current.value === user.password) {
       navigate('/home');
+
     } else {
       toast.error('Usuario inexistente.', {
         position: "top-right",

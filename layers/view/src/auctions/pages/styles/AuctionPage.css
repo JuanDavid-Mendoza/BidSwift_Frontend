@@ -12,6 +12,19 @@
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
+#nav-left{
+  position: absolute;
+  top: 350px;
+  width: 50px;
+  left: 20px;
+}
+#nav-right{
+  position: absolute;
+  width: 50px;
+  top: 350px;
+  right: 20px;
+}
+
 .auction-container h1 {
   width: 60%;
   text-align: left;

@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
+import { GlobalContext } from '../../utils/GlobalContext';
+import {Auctionable} from "../Auctionable"
+import {Product} from "../Product"
+
 import "./styles/PublishAuctionPage.css";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Footer from '../../shared/components/Footer';
+import Navbar from '../../shared/components/Navbar';
 import FileInput from "../components/FileInput";
 
 function PublishAuctionPage() {
@@ -14,6 +19,18 @@ function PublishAuctionPage() {
     const [initialPrice, setInitialPrice] = useState(0);
     const [specification, setSpecification] = useState("");
     const [otherImages, setOtherImages] = useState([]);
+    const { currentAuction } = useContext(GlobalContext);
+
+    useEffect(() => {
+        if (currentAuction) {
+            setItemName(currentAuction.name);
+            setDescription(currentAuction.description);
+            setStartDate(currentAuction.startDate);
+            setInitialPrice(currentAuction.price);
+            setSpecification(currentAuction.specification);
+            setOtherImages(currentAuction.images);
+        }
+    }, []);
 
     const handleSubmit = () => {
         // Validar que todos los campos estén llenos

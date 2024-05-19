@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+import Footer from '../../shared/components/Footer';
+import Navbar from '../../shared/components/Navbar';
 
 import "./styles/LandingPage.css";
-import auctionImg from "../assets/auction.jpg"
+import auctionImg from "../../assets/auction.jpg"
 
 function LandingPage() {
   const navigate = useNavigate();
