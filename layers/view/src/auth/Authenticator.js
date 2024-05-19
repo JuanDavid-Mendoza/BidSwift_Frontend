@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * @interface Authenticator
  * @description Interfaz para autenticadores.
@@ -13,11 +14,11 @@ export class Authenticator {
     /**
      * @method auth
      * @description Método para autenticar a un usuario.
-     * @param {string} user - El nombre de usuario.
+     * @param {string} user - Dirección de correo electrónico del usuario.
      * @param {string} password - La contraseña del usuario.
      * @throws {Error} Si el método no está implementado.
      */
-    auth(user, password) {
+    auth(email, password) {
         throw new Error("El método 'auth' debe ser implementado");
     }
 
