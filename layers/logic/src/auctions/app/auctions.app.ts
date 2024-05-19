@@ -14,6 +14,15 @@ export default class CrudAuctionsApp {
     return persistAuctionService.create(data);
   }
 
+  public async update(data: AuctionModel) {
+    const persistAuctionService: PersistAuctionService = new PersistAuctionService(
+      new PersistAuctionMysql(),
+      new GetAuctionsMysql(),
+    );
+
+    return persistAuctionService.update(data);
+  }
+
   public async getAll() {
     const getAuctionsService: GetAuctionsService = new GetAuctionsService(new GetAuctionsMysql());
     return getAuctionsService.getAll();

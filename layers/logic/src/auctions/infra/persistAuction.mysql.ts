@@ -15,6 +15,20 @@ export default class PersistAuctionMysql {
     return createdAuction.id;
   }
 
+  public async update(data: AuctionModel): Promise<number> {
+    const values: string[] = [];
+    if (typeof data.startDate === 'string') values.push(` startdate = '${data.startDate}' `);
+    if (typeof data.endDate === 'string') values.push(` enddate = '${data.endDate}' `);
+    if (typeof data.timer === 'number') values.push(` timer = '${data.timer}' `);
+    if (typeof data.state === 'string') values.push(` state = '${data.state}' `);
+
+    await DBConnection.getInstance().executeQuery(
+      `UPDATE "Auction" SET ${values.join(',')}`,
+    );
+
+    return data.id;
+  }
+
   public async createProduct(data: ProductModel): Promise<number> {
     const createdProduct = await DBConnection.getInstance().executeQuery(
       `INSERT INTO "Product" (name, description, price, details)

@@ -9,6 +9,7 @@ const auctionsPath: string = '/auctions';
 
 /* Auctions */
 auctionRouter.post(`${auctionsPath}/create`, auctionController.createAuction);
+auctionRouter.put(`${auctionsPath}/update`, auctionController.updateAuction);
 auctionRouter.get(`${auctionsPath}/getAll`, auctionController.getAll);
 auctionRouter.get(`${auctionsPath}/getByAccountId`, auctionController.getByAccountId);
 

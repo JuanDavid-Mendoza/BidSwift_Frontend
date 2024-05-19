@@ -12,6 +12,16 @@ export default class AuctionController {
     }
   }
 
+  public async updateAuction(req: Request, res: Response) { 
+    try {
+      const crudAuctions: CrudAuctionsApp = new CrudAuctionsApp();
+      const data = await crudAuctions.update(req.body);
+      return data ? res.status(200).json(data) : res.status(200).json();
+    } catch (e) {
+      return res.status(500).json({ error: e });
+    }
+  }
+
   public async getAll(req: Request, res: Response) {
     try {
       const crudAuctions: CrudAuctionsApp = new CrudAuctionsApp();

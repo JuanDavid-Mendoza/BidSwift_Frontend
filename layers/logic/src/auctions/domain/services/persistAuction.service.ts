@@ -18,4 +18,9 @@ export default class PersistAuctionService {
 
     return createdAuction;
   }
+
+  public async update(data: AuctionModel): Promise<number> {
+    await this.persistAuction.update(data)
+    return data.id;
+  }
 }
