@@ -1,5 +1,5 @@
 import './styles/PublishedPage.css'
-import { purchasedProducts } from '../../utils/fakeData';
+// import { purchasedProducts } from '../../utils/fakeData';
 import Footer from '../../shared/components/Footer';
 import Navbar from '../../shared/components/Navbar';
 import { useNavigate } from "react-router-dom";
@@ -7,31 +7,55 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from 'react'
 import { GlobalContext } from '../../utils/GlobalContext';
 
-import {Auctionable} from "../Auctionable"
-import {Product} from "../Product"
+// import {Auctionable} from "../Auctionable"
+// import {Product} from "../Product"
+import { GetMethod } from '../../shared/GetMethod';
+import { AuctionModel } from '../../shared/models/AuctionModel';
+import { ProductModel } from '../../shared/models/ProductModel';
 
 
 function PublishedPage() {
     const navigate = useNavigate();
+    const [purchases, setPurchases] = useState([]);
     const [auctions, setAuctions] = useState([]);
-    const { setCurrentAuction } = useContext(GlobalContext);
+    const { setCurrentAuction, user } = useContext(GlobalContext);
+    const accountId = user.account.id;
 
+    const getPurchases = async () => {
+        const purchasesResult = await new GetMethod().execute(`http://localhost:3030/purchases/getByAccountId?accountId=${accountId}`);
+        const auctionsResult = await new GetMethod().execute(`http://localhost:3030/auctions/getByAccountId?accountId=${accountId}`);
+        setPurchases(purchasesResult.map(p => ({
+            name: p.productName,
+            description: p.productDescription,
+            startDate: p.startDate,
+            price: p.productPrice,
+            image: p.productImage,
+            productId: p.productId,
+        })));
+        setAuctions(auctionsResult);
+    }
 
     useEffect(() => {
-        const getData = async () => {
-            setAuctions(purchasedProducts.map(p => new Product(p.id, p.name, p.description, p.price, [p.principalImage])));
-        };
-
-        getData();
-    }, [])
+        getPurchases();
+    }, []);
 
     /**
      * @function cloneAuction
      * @description Clona una subasta.
-     * @param {Auctionable} auction - La subasta a clonar.
+     * @param {number} productId - El id del producto de la subasta a clonar.
      */
-    const cloneAuction = (auction) => {
-        const clonedAuction = auction.clone();
+    const cloneAuction = (productId) => {
+        const auction = auctions.find(a => a.productId == productId);
+        const productToClone = new ProductModel(
+            null,
+            auction.product.name,
+            auction.product.description,
+            auction.product.price,
+            auction.product.details,
+            auction.product.images,
+        );
+        const auctionToClone = new AuctionModel(null, auction.startdate, null, null, null, null, null, productToClone);
+        const clonedAuction = auctionToClone.clone();
         setCurrentAuction(clonedAuction);
         navigate(`/publish-auction`);
     };
@@ -44,10 +68,10 @@ function PublishedPage() {
 
                 <h1>Subastas Hechas</h1>
 
-                {auctions.map((p, i) => <div key={i} className="purchased-product">
+                {purchases.map((p, i) => <div key={i} className="purchased-product">
 
                     <div className="img-container">
-                        <img src={p.images[0]} alt={p.name} />
+                        <img src={p.image} alt={p.name} />
                     </div>
 
                     <div className="product-data-container">
@@ -68,7 +92,7 @@ function PublishedPage() {
 
                     <div className="options-container">
                         <h3>Opciones</h3>
-                        <button onClick={() => cloneAuction(p)}>Copiar Subasta</button>
+                        <button onClick={() => cloneAuction(p.productId)}>Copiar Subasta</button>
                     </div>
 
                 </div>)}

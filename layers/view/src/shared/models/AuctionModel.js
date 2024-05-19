@@ -1,4 +1,9 @@
-export class AuctionModel {
+import { Auctionable } from "../../auctions/Auctionable";
+
+/**
+ * @extends Auctionable
+ */
+export class AuctionModel extends Auctionable {
   /**
    * @constructor
    * @param {number} id - Identificador de la subasta.
@@ -11,6 +16,7 @@ export class AuctionModel {
    * @param {ProductModel} product - Producto que se está subastando.
    */
   constructor(id, startDate, endDate, timer, state, productId, ownerId, product) {
+    super();
     this.id = id;
     this.startDate = startDate;
     this.endDate = endDate;
@@ -20,4 +26,22 @@ export class AuctionModel {
     this.ownerId = ownerId;
     this.product = product;
   }
+
+  /**
+     * @method clone
+     * @description Crea y devuelve una copia del objeto Subasta.
+     * @returns {Auction} Una copia del objeto Subasta.
+     */
+  clone() {
+    return new AuctionModel(
+        this.id,
+        this.startDate,
+        this.endDate,
+        this.timer,
+        this.state,
+        this.productId,
+        this.ownerId,
+        this.product.clone() 
+    );
+}
 }

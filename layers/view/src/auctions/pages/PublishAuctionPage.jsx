@@ -28,12 +28,12 @@ function PublishAuctionPage() {
 
     useEffect(() => {
         if (currentAuction) {
-            setItemName(currentAuction.name);
-            setDescription(currentAuction.description);
-            setStartDate(currentAuction.startDate);
-            setInitialPrice(currentAuction.price);
-            setSpecification(currentAuction.specification);
-            setImages(currentAuction.images);
+            setItemName(currentAuction.product.name);
+            setDescription(currentAuction.product.description);
+            setStartDate(currentAuction.startdate);
+            setInitialPrice(currentAuction.product.price);
+            setSpecification(currentAuction.product.details);
+            setImages(currentAuction.product.images);
         }
     }, [currentAuction]);
 

@@ -13,7 +13,6 @@ function HomePage() {
 
     const getAuctions = async () => {
         const result = await new GetMethod().execute('http://localhost:3030/auctions/getAll');
-        console.log(result)
         setAuctions(result.map(a => ({
             id: a.id,
             timer: a.timer,
@@ -23,7 +22,7 @@ function HomePage() {
             description: a.product.description,
             startDate: a.startdate,
             price: a.product.price,
-        })))
+        })));
     }
 
     useEffect(() => {
