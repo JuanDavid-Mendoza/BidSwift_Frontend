@@ -20,8 +20,9 @@ export default class VerificationLog extends Authenticator {
      * @param {string} email - Dirección de correo electrónico del usuario.
      * @param {string} password - La contraseña del usuario.
      */
-    auth(email, password) {
-        if (new GetMethod().execute(`http://localhost:3030/users/exists?email=${email}`)) {
+    async auth(email, password) {
+        const exists = await new GetMethod().execute(`http://localhost:3030/users/exists?email=${email}`);
+        if (exists) {
             return this.next.auth(email, password)
         }
 

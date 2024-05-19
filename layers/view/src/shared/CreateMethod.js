@@ -21,14 +21,20 @@ export class CreateMethod extends RequestCommand {
  * @param {Object} data - Modelo de la entidad sobre la que se realizará la peteción.
  */
   async execute(path, data) {
-    const response = await fetch(path, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
+    try {
+      const response = await fetch(path, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
 
-    return response.json();
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Error:', error);
+      return null;
+    }
   }
 }

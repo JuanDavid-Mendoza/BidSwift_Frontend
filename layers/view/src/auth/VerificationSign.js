@@ -20,8 +20,9 @@ export default class VerificationSign extends Authenticator {
      * @param {string} email - Dirección de correo electrónico del usuario.
      * @param {string} password - La contraseña del usuario.
      */
-    auth(email, password) {
-        if (new GetMethod().execute(`http://localhost:3030/users/exists?email=${email}`)) return null;
+    async auth(email, password) {
+        const result = await new GetMethod().execute(`http://localhost:3030/users/exists?email=${email}`);
+        if (result) return null;
         
         return this.next.auth(email, password)
     }

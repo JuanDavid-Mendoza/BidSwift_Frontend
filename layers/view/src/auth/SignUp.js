@@ -31,7 +31,7 @@ export default class SignIn extends Authenticator {
      * @param {string} email - Dirección de correo electrónico del usuario.
      * @param {string} password - La contraseña del usuario.
      */
-    auth(email, password) {
+    async auth(email, password) {
         const user = new UserModel(
             null, 
             this.names, 
@@ -44,6 +44,8 @@ export default class SignIn extends Authenticator {
             null
         );
 
-        return new CreateMethod().execute('http://localhost:3030/users/create', user) ? user : null;
+        const result = new CreateMethod().execute('http://localhost:3030/users/create', user);
+
+        return result ? user : null;
     }
 }

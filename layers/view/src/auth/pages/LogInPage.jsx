@@ -1,10 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import * as Components from '../components/LogInComponents';
-import { user } from "../../utils/fakeData";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-
-import {Authenticator} from "../Authenticator";
+import { ToastContainer, toast } from "react-toastify"
+import { GlobalContext } from '../../utils/GlobalContext';
 import VerificationLog from "../VerificationLog";
 import VerificationSign from "../VerificationSign";
 import LogIn from "../LogIn";
@@ -13,16 +11,60 @@ import SignUp from "../SignUp";
 function LogInPage() {
   const [signin, toggle] = React.useState('true');
   const navigate = useNavigate();
-  const userNameRef = useRef(null);
+  const { setUser } = useContext(GlobalContext);
+  const emailLogRef = useRef(null);
+  const passwordLogRef = useRef(null);
+  const namesRef = useRef(null);
+  const lastNamesRef = useRef(null);
+  const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const birthDateRef = useRef(null);
+  const identificationRef = useRef(null);
+  const addressRef = useRef(null);
 
-  const logIn = (event) => {
+  const logIn = async (event) => {
     event.preventDefault();
-    if (userNameRef.current.value === user.userName && passwordRef.current.value === user.password) {
-      navigate('/home');
 
+    const logreg = new VerificationLog();
+    logreg.setNext(new LogIn());
+    const user = await logreg.auth(emailLogRef.current.value, passwordLogRef.current.value);
+
+    if (user) {
+      setUser(user);
+      navigate('/home');
     } else {
-      toast.error('Usuario inexistente.', {
+      toast.error('Datos incorrectos o usuario inexistente.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+
+  const register = async (event) => {
+    event.preventDefault();
+
+    const logreg = new VerificationSign();
+    logreg.setNext(new SignUp(
+      namesRef.current.value,
+      lastNamesRef.current.value,
+      birthDateRef.current.value,
+      identificationRef.current.value,
+      addressRef.current.value,
+    ));
+
+    const user = await logreg.auth(emailRef.current.value, passwordRef.current.value);
+
+    if (user) {
+      setUser(user);
+      navigate('/home');
+    } else {
+      toast.error('Usuario ya existente.', {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -42,11 +84,14 @@ function LogInPage() {
         <Components.SignUpContainer signin={signin}>
           <Components.Form>
             <Components.Title>Registrate en BidSwift</Components.Title>
-            <Components.Input type='text' placeholder='Nombre completo' />
-            <Components.Input type='email' placeholder='Correo electrónico' />
-            <Components.Input type='text' placeholder='Nombre de usuario' />
-            <Components.Input type='password' placeholder='Contraseña' />
-            <Components.Button>Registrarse</Components.Button>
+            <Components.Input type='text' placeholder='Nombres' ref={namesRef} required/>
+            <Components.Input type='text' placeholder='Apellidos' ref={lastNamesRef} required/>
+            <Components.DateInput type='date' placeholder='Fecha de nacimiento' ref={birthDateRef} required/>
+            <Components.Input type='number' placeholder='Número de identificación' ref={identificationRef} required/>
+            <Components.Input type='email' placeholder='Correo electrónico' ref={emailRef} required/>
+            <Components.Input type='password' placeholder='Contraseña' ref={passwordRef} required/>
+            <Components.Input type='text' placeholder='Dirección de residencia' ref={addressRef} required/>
+            <Components.Button onClick={register}>Registrarse</Components.Button>
           </Components.Form>
         </Components.SignUpContainer>
 
@@ -54,8 +99,8 @@ function LogInPage() {
         <Components.SignInContainer signin={signin}>
           <Components.Form>
             <Components.Title>Inicia sesión en BidSwift</Components.Title>
-            <Components.Input type='text' placeholder='Usuario' ref={userNameRef} />
-            <Components.Input type='password' placeholder='Contraseña' ref={passwordRef} />
+            <Components.Input type='email' placeholder='Dirección de correo' ref={emailLogRef} required/>
+            <Components.Input type='password' placeholder='Contraseña' ref={passwordLogRef} required/>
             <Components.Button onClick={logIn}>Iniciar sesión</Components.Button>
           </Components.Form>
         </Components.SignInContainer>

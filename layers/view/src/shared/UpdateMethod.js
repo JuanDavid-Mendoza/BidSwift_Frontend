@@ -21,14 +21,20 @@ export class UpdateMethod extends RequestCommand {
  * @param {Object} data - Modelo de la entidad sobre la que se realizará la peteción.
  */
   async execute(path, data) {
-    const response = await fetch(path, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
-
-    return response.json();
+    try {
+      const response = await fetch(path, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+  
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Error:', error);
+      return null;
+    }
   }
 }

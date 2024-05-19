@@ -18,7 +18,7 @@ export class Authenticator {
      * @param {string} password - La contraseña del usuario.
      * @throws {Error} Si el método no está implementado.
      */
-    auth(email, password) {
+    async auth(email, password) {
         throw new Error("El método 'auth' debe ser implementado");
     }
 

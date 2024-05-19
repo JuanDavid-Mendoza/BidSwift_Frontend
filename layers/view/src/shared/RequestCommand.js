@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /**
- * @interface Requestcommand
+ * @interface RequestCommand
  * @description Interfaz para realizar peticiones al backend.
  */
-export class Requestcommand {
+export class RequestCommand {
   /**
    * @constructor
    */

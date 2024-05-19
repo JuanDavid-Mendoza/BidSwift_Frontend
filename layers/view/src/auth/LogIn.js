@@ -20,7 +20,8 @@ export default class LogIn extends Authenticator {
      * @param {string} email - Dirección de correo electrónico del usuario.
      * @param {string} password - La contraseña del usuario.
      */
-    auth(email, password) {
-        return new GetMethod().execute(`http://localhost:3030/users/logIn?email=${email}&password=${password}`)
+    async auth(email, password) {
+        const result = await new GetMethod().execute(`http://localhost:3030/users/logIn?email=${email}&password=${password}`);
+        return result;
     }
 }
