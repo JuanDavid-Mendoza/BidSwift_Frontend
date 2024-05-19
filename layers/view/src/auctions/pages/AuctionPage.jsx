@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import './styles/AuctionPage.css'
 import { auctions, bids, user } from '../../utils/fakeData';
 import { useEffect, useRef, useState } from 'react';
@@ -6,9 +6,14 @@ import Footer from '../../shared/components/Footer';
 import Navbar from '../../shared/components/Navbar';
 import { ToastContainer, toast } from "react-toastify";
 
+import { AuctionList } from "../AuctionList";
+import {ActiveAuctionList} from "../ActiveAuctionList"
+import { Iterator } from "../Iterator";
+
 function AuctionPage() {
   const [imgIndex, setImgIndex] = useState(0);
   const { itemId } = useParams();
+  const navigate = useNavigate();
   const [bidsHistory, setBidsHistory] = useState(bids.filter((b) => b.auctionId == itemId).reverse());
   const auction = auctions.find((a) => a.id == itemId);
   const userBid = useRef(null);
@@ -30,6 +35,29 @@ function AuctionPage() {
 
   const prevImg = () => { setImgIndex(imgIndex === 0 ? auction.images.length - 1 : imgIndex - 1) }
   const nextImg = () => { setImgIndex(imgIndex === auction.images.length - 1 ? 0 : imgIndex + 1) }
+
+  /** @type {AuctionList} */
+  let auctionList;
+  /** @type {Iterator} */
+  let auctionterator;
+
+  const goNextAuction = async () => {
+    auctionList = new ActiveAuctionList();
+    auctionterator = auctionList.createUpIterator();
+    auctionterator.setCurrentPosition(auction.id);
+    if (auctionterator.hasMore()){
+      navigate(`/auction/${auctionterator.getNext().id}`);
+    }
+  }
+
+  const goPrevAuction = async () => {
+    auctionList = new ActiveAuctionList();
+    auctionterator = auctionList.createDownIterator();
+    auctionterator.setCurrentPosition(auction.id);
+    if (auctionterator.hasMore()){
+      navigate(`/auction/${auctionterator.getNext().id}`);
+    }
+  }
 
   useEffect(() => {
     if (countdown > 0) {
@@ -110,8 +138,12 @@ function AuctionPage() {
     <>
       <Navbar />
 
-      <div className="auction-container">
+      <div className="nav-buttons">
+        <button id="nav-left" onClick={goPrevAuction}>{'🡰'}</button>
+        <button id="nav-right" onClick={goNextAuction}>{'🡲'}</button>
+      </div>
 
+      <div className="auction-container">
         <h1>{auction.name}</h1>
         <p id="timer" ref={timer}>La subasta finalizará en: <b>{formatTime(countdown)}</b></p>
 

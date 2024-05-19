@@ -2,7 +2,7 @@ import { Auctionable } from "./Auctionable";
 import { Product } from "./Product";
 
 /**
- * @class Subasta
+ * @class Auction
  * @extends Auctionable
  * @description Clase que representa una subasta.
  */
