@@ -1,4 +1,4 @@
-import UserModel from "../shared/models/UserModel";
+import { UserModel } from "../shared/models/UserModel";
 import { CreateMethod } from "../shared/CreateMethod";
 import { Authenticator } from "./Authenticator";
 

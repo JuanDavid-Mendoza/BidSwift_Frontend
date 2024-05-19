@@ -1,4 +1,4 @@
-export default class ProductModel {
+export class ProductModel {
   /**
    * @constructor
    * @param {number} id - Identificador del producto.

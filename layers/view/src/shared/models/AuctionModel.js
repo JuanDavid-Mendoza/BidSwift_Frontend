@@ -1,4 +1,4 @@
-export default class AuctionModel {
+export class AuctionModel {
   /**
    * @constructor
    * @param {number} id - Identificador de la subasta.

@@ -15,8 +15,8 @@ export default class GetAuctionsService {
       const images: ImageModel[] = await this.getAuctions.getImagesByProductIds(productIds);
 
       auctions.forEach(auction => {
-        auction.product = products.find(p => p.id = auction.productId) as any;
-        auction.product.images = images.filter(i => i.productId = auction.productId);
+        auction.product = products.find(p => p.id === auction.productId) as any;
+        auction.product.images = images.filter(i => i.productId === auction.productId);
       });
     }
 

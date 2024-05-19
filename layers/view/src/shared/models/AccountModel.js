@@ -1,4 +1,4 @@
-export default class AccountModel {
+export class AccountModel {
   /**
    * @constructor
    * @param {number} id - Identificador de la cuenta.

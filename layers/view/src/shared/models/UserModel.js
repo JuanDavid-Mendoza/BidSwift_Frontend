@@ -1,4 +1,4 @@
-export default class UserModel {
+export class UserModel {
   /**
    * @constructor
    * @param {number} id - Identificador del usuario.

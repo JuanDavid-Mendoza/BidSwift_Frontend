@@ -1,4 +1,4 @@
-export default class ImageModel {
+export class ImageModel {
   /**
    * @constructor
    * @param {number} id - Identificador de la imágen.

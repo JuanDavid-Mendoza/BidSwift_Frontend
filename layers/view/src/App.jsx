@@ -14,11 +14,11 @@ import { GlobalProvider } from "./utils/GlobalContext";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <LandingPage />,
+        element: <LogInPage />,
     },
     {
-        path: "/login",
-        element: <LogInPage />,
+        path: "/landing",
+        element: <LandingPage />,
     },
     {
         path: "/home",

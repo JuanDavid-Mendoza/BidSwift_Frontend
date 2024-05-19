@@ -33,8 +33,8 @@ export default class GetAuctionsMysql {
 
   async getImagesByProductIds(productIds: string): Promise<ImageModel[]> {
     const products: ImageModel[] = await DBConnection.getInstance().executeQuery(
-      `SELECT * FROM "Image"
-        WHERE productid in (${productIds})`
+      `SELECT *, productid as "productId" FROM "Image"
+        WHERE productid in (${productIds}) ORDER BY id`
     ).then(r => r.rows);
 
     return products;

@@ -1,4 +1,4 @@
-export default class BidModel {
+export class BidModel {
   /**
    * @constructor
    * @param {number} id - Identificador de la puja.

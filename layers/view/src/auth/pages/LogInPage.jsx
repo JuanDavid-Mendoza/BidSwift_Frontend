@@ -31,7 +31,7 @@ function LogInPage() {
 
     if (user) {
       setUser(user);
-      navigate('/home');
+      navigate('/landing');
     } else {
       toast.error('Datos incorrectos o usuario inexistente.', {
         position: "top-right",
@@ -62,7 +62,7 @@ function LogInPage() {
 
     if (user) {
       setUser(user);
-      navigate('/home');
+      navigate('/landing');
     } else {
       toast.error('Usuario ya existente.', {
         position: "top-right",

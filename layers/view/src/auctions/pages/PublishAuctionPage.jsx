@@ -1,25 +1,30 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
 import { GlobalContext } from '../../utils/GlobalContext';
-import {Auctionable} from "../Auctionable"
-import {Product} from "../Product"
+// import {Auctionable} from "../Auctionable"
+// import {Product} from "../Product"
 
 import "./styles/PublishAuctionPage.css";
 import Footer from '../../shared/components/Footer';
 import Navbar from '../../shared/components/Navbar';
-import FileInput from "../components/FileInput";
+import { CreateMethod } from "../../shared/CreateMethod";
+import { AuctionModel } from "../../shared/models/AuctionModel";
+import { ProductModel } from "../../shared/models/ProductModel";
+import { useNavigate } from "react-router-dom";
 
 function PublishAuctionPage() {
+    const navigate = useNavigate();
     const [itemName, setItemName] = useState("");
     const [description, setDescription] = useState("");
     const [startDate, setStartDate] = useState("");
     const [initialPrice, setInitialPrice] = useState(0);
     const [specification, setSpecification] = useState("");
-    const [otherImages, setOtherImages] = useState([]);
-    const { currentAuction } = useContext(GlobalContext);
+    const [urlImage, setUrlImage] = useState("");
+    const [images, setImages] = useState([]);
+    const { currentAuction, user } = useContext(GlobalContext);
 
     useEffect(() => {
         if (currentAuction) {
@@ -28,29 +33,64 @@ function PublishAuctionPage() {
             setStartDate(currentAuction.startDate);
             setInitialPrice(currentAuction.price);
             setSpecification(currentAuction.specification);
-            setOtherImages(currentAuction.images);
+            setImages(currentAuction.images);
         }
-    }, []);
+    }, [currentAuction]);
 
-    const handleSubmit = () => {
+    const addImage = () => {
+        setImages([...images, urlImage])
+        setUrlImage("")
+    }
+
+    const handleSubmit = async () => {
         // Validar que todos los campos estén llenos
         if (
             itemName &&
             description &&
             startDate &&
             initialPrice &&
-            specification
+            specification &&
+            images.length
         ) {
-            toast.success("Se ha publicado la subasta exitosamente.", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+            const product = new ProductModel(
+                null,
+                itemName,
+                description,
+                initialPrice,
+                specification,
+                images
+            )
+
+            const auction = new AuctionModel(
+                null,
+                startDate,
+                null,
+                300,
+                'En espera',
+                null,
+                user.account.id,
+                product
+            );
+
+            console.log(auction)
+            const result = await new CreateMethod().execute('http://localhost:3030/auctions/create', auction);
+            console.log(result);
+
+            if (result) {
+                toast.success("Se ha publicado la subasta exitosamente.", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                setTimeout(() => {
+                    navigate('/home')
+                }, 2000);
+            }
         } else {
             toast.warn("Por favor completa todos los campos obligatorios.", {
                 position: "top-right",
@@ -80,12 +120,18 @@ function PublishAuctionPage() {
                         type="text"
                         value={itemName}
                         onChange={(e) => setItemName(e.target.value)}
+                        required
                     />
                 </div>
 
                 <div className="container">
-                    <h3>Imagen Principal</h3>
-                    <FileInput />
+                    <h3>Imágenes</h3>
+                    <input
+                        type="text"
+                        value={urlImage}
+                        onChange={(e) => setUrlImage(e.target.value)}
+                    />
+                    <button onClick={addImage}>Agregar</button>
                 </div>
 
                 <div className="container">
@@ -94,6 +140,7 @@ function PublishAuctionPage() {
                         type="text"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
+                        required
                     />
                 </div>
 
@@ -103,6 +150,7 @@ function PublishAuctionPage() {
                         type="datetime-local"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
+                        required
                     />
                 </div>
 
@@ -114,6 +162,7 @@ function PublishAuctionPage() {
                         min={0}
                         value={initialPrice}
                         onChange={(e) => setInitialPrice(e.target.value)}
+                        required
                     />
                 </div>
 
@@ -123,12 +172,8 @@ function PublishAuctionPage() {
                         type="text"
                         value={specification}
                         onChange={(e) => setSpecification(e.target.value)}
+                        required
                     />
-                </div>
-
-                <div className="container">
-                    <h3>Otras imágenes</h3>
-                    <FileInput />
                 </div>
 
                 <button onClick={handleSubmit}>Publicar Subasta</button>

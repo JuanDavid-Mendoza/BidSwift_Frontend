@@ -1,4 +1,4 @@
-export default class PurchaseModel {
+export class PurchaseModel {
   /**
    * @constructor
    * @param {number} id - Identificador de la compra.
