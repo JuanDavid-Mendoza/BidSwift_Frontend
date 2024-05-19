@@ -23,9 +23,9 @@ export default class CrudAuctionsApp {
     return persistAuctionService.update(data);
   }
 
-  public async getAll() {
+  public async getAll(state: string) {
     const getAuctionsService: GetAuctionsService = new GetAuctionsService(new GetAuctionsMysql());
-    return getAuctionsService.getAll();
+    return getAuctionsService.getAll(state);
   }
   
   public async getByAccountId(accountId: number) {

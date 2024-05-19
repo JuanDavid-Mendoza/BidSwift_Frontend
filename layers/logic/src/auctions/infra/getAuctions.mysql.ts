@@ -4,9 +4,11 @@ import ImageModel from '../domain/models/image.model';
 import DBConnection from '../../shared/postgre/db.postgre';
 
 export default class GetAuctionsMysql {
-  async getAll(): Promise<AuctionModel[]> {
+  async getAll(state: string): Promise<AuctionModel[]> {
+    const auxWhere = state ? ` WHERE state = '${state}' ` : '';
+
     const auction: AuctionModel[] = await DBConnection.getInstance().executeQuery(
-      `SELECT *, productid as "productId" FROM "Auction"`
+      `SELECT *, productid as "productId" FROM "Auction" ${auxWhere}`
     ).then(r => r.rows);
 
     return auction;

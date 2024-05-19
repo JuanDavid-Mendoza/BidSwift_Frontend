@@ -6,8 +6,8 @@ import ImageModel from '../models/image.model';
 export default class GetAuctionsService {
   public constructor(private getAuctions: GetAuctionsMysql) {}
 
-  public async getAll(): Promise<AuctionModel[]> {
-    const auctions: AuctionModel[] = await this.getAuctions.getAll();
+  public async getAll(state: string): Promise<AuctionModel[]> {
+    const auctions: AuctionModel[] = await this.getAuctions.getAll(state);
     
     if (auctions.length) {
       const productIds: string = auctions.map(a => a.productId).join(',');

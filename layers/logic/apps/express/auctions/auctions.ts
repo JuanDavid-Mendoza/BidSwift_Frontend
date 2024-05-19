@@ -24,8 +24,9 @@ export default class AuctionController {
 
   public async getAll(req: Request, res: Response) {
     try {
+      const params = req.query as any || {};
       const crudAuctions: CrudAuctionsApp = new CrudAuctionsApp();
-      const data = await crudAuctions.getAll();
+      const data = await crudAuctions.getAll(params.state);
       return data ? res.status(200).json(data) : res.status(200).json();
     } catch (e) {
       return res.status(500).json({ error: e });
