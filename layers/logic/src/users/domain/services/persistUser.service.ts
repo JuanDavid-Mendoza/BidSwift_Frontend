@@ -9,8 +9,6 @@ export default class PersistUserService {
   ) {}
 
   public async create(data: UserModel): Promise<number> {
-    const previous: UserModel = await this.getUsers.byEmail(data.email);
-    if (previous) throw new Error('El correo ya existe en el sistema');
     const createdUser: number = await this.persistUser.create(data)
 
     const newUser: UserModel = await this.getUsers.byEmail(data.email);

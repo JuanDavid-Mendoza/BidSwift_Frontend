@@ -17,4 +17,9 @@ export default class GetUsersService {
 
     return null as any;
   }
+
+  public async exists(email: string): Promise<boolean> {
+    const user: UserModel = await this.getUsers.byEmail(email);
+    return user ? true : false;
+  }
 }

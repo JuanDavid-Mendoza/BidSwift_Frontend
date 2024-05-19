@@ -4,7 +4,7 @@ import GetPurchasesService from '../domain/services/getPurchases.service';
 import PersistPurchaseMysql from '../infra/persistPurchase.mysql';
 import GetPurchasesMysql from '../infra/getPurchases.mysql';
 
-export default class CrudPurchasesApp {
+export default class PurchasesApp {
   public async create(data: PurchaseModel) {
     const persistPurchaseService: PersistPurchaseService = new PersistPurchaseService(
       new PersistPurchaseMysql(),

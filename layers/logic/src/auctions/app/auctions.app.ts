@@ -4,7 +4,7 @@ import GetAuctionsService from '../domain/services/getAuctions.service';
 import PersistAuctionMysql from '../infra/persistAuction.mysql';
 import GetAuctionsMysql from '../infra/getAuctions.mysql';
 
-export default class CrudAuctionsApp {
+export default class AuctionsApp {
   public async create(data: AuctionModel) {
     const persistAuctionService: PersistAuctionService = new PersistAuctionService(
       new PersistAuctionMysql(),

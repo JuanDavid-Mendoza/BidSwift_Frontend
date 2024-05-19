@@ -4,7 +4,7 @@ import GetBidsService from '../domain/services/getBids.service';
 import PersistBidMysql from '../infra/persistBid.mysql';
 import GetBidsMysql from '../infra/getBids.mysql';
 
-export default class CrudBidsApp {
+export default class BidsApp {
   public async create(data: BidModel) {
     const persistBidService: PersistBidService = new PersistBidService(
       new PersistBidMysql(),
