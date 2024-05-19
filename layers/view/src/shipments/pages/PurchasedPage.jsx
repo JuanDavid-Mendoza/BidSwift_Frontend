@@ -21,6 +21,7 @@ function PurchasedPage() {
       startDate: p.startDate,
       price: p.productPrice,
       principalImage: p.productImage,
+      auctionId: p.auctionid,
     })));
   }
 
@@ -60,7 +61,7 @@ function PurchasedPage() {
 
           <div className="options-container">
             <h3>Opciones</h3>
-            <button onClick={() => navigate(`/auction/${p.id}`)}>Ver detalle</button>
+            <button onClick={() => navigate(`/auction/${p.auctionId}`)}>Ver detalle</button>
             <button>Gestionar envío</button>
           </div>
 

@@ -23,7 +23,7 @@ export default class PersistAuctionMysql {
     if (typeof data.state === 'string') values.push(` state = '${data.state}' `);
 
     await DBConnection.getInstance().executeQuery(
-      `UPDATE "Auction" SET ${values.join(',')}`,
+      `UPDATE "Auction" SET ${values.join(',')} WHERE id = ${data.id}`,
     );
 
     return data.id;

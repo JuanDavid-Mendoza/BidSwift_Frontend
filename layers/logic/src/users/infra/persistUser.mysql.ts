@@ -25,7 +25,7 @@ export default class PersistUserMysql {
 
     if (values.length) {
       const createdUser = await DBConnection.getInstance().executeQuery(
-        `UPDATE "User" SET ${values.join(',')}`,
+        `UPDATE "User" SET ${values.join(',')} WHERE id = ${data.id}`,
       );
 
       return createdUser.rowCount;
@@ -51,7 +51,7 @@ export default class PersistUserMysql {
 
     if (values.length) {
       const createdAccount = await DBConnection.getInstance().executeQuery(
-        `UPDATE "Account" SET ${values.join(',')}`,
+        `UPDATE "Account" SET ${values.join(',')} WHERE id = ${data.id}`,
       );
 
       return createdAccount.rowCount;

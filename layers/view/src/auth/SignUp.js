@@ -44,7 +44,7 @@ export default class SignIn extends Authenticator {
             null
         );
 
-        const result = new CreateMethod().execute('http://localhost:3030/users/create', user);
+        const result = await new CreateMethod().execute('http://localhost:3030/users/create', user);
 
         return result ? user : null;
     }

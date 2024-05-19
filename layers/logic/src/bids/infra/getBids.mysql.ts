@@ -7,7 +7,7 @@ export default class GetBidsMysql {
       `SELECT b.*, u.names userNames, u.lastnames userLastNames, u.email userEmail FROM "Bid" b
         INNER JOIN "Account" a ON a.id = b.accountid
         INNER JOIN "User" u ON u.id = a.userid
-        WHERE auctionid = ${auctionId}`
+        WHERE auctionid = ${auctionId} ORDER BY id`
     ).then(r => r.rows);
 
     return bids;
