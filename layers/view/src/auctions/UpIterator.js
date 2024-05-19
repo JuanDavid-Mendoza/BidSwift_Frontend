@@ -35,7 +35,8 @@ export class UpIterator extends Iterator {
     getNext() {
         if (this.hasMore()) {
             this.currentPosition++;
-            return this.auctionList.getAuctions()[this.currentPosition];
+            const auctions = this.auctionList.getAuctions();
+            return auctions[this.currentPosition];
         } else {
             return null;
         }

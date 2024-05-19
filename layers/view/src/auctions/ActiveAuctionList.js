@@ -4,8 +4,6 @@ import { Iterator } from "./Iterator";
 import { UpIterator } from "./UpIterator";
 import { DownIterator } from "./DownIterator";
 
-import {auctions} from "../utils/fakeData"
-
 /**
  * @class ActiveAuctionList
  * @implements {AuctionList}
@@ -16,22 +14,9 @@ export class ActiveAuctionList extends AuctionList {
      * @constructor
      * @description Crea una instancia de ActiveAuctionList.
      */
-    constructor() {
+    constructor(auctions) {
         super();
-        this.auctions = [];
-        this.getData();
-    }
-
-    /**
-     * @method getData
-     * @description Obtiene la lista de subastas activas del servicio.
-     */
-    async getData() {
-        try {
-            this.auctions = auctions;
-        } catch (error) {
-            console.error(error);
-        }
+        this.auctions = auctions;
     }
 
     /**

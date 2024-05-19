@@ -1,25 +1,35 @@
 import { useNavigate, useParams } from "react-router-dom";
 import './styles/AuctionPage.css'
-import { auctions, bids, user } from '../../utils/fakeData';
+import { bids, user } from '../../utils/fakeData';
 import { useEffect, useRef, useState } from 'react';
 import Footer from '../../shared/components/Footer';
 import Navbar from '../../shared/components/Navbar';
 import { ToastContainer, toast } from "react-toastify";
-
-import { AuctionList } from "../AuctionList";
-import {ActiveAuctionList} from "../ActiveAuctionList"
-import { Iterator } from "../Iterator";
+import { ActiveAuctionList } from "../ActiveAuctionList"
+import { GetMethod } from "../../shared/GetMethod";
 
 function AuctionPage() {
   const [imgIndex, setImgIndex] = useState(0);
   const { itemId } = useParams();
   const navigate = useNavigate();
+  const [auctions, setAuctions] = useState(null);
+  const [auction, setAuction] = useState(null);
+
+  const getAuctions = async () => {
+    const result = await new GetMethod().execute('http://localhost:3030/auctions/getAll');
+    setAuctions(result);
+    setAuction(result.find(a => a.id == itemId));
+  }
+
+  useEffect(() => {
+    getAuctions();
+  }, []);
+
   const [bidsHistory, setBidsHistory] = useState(bids.filter((b) => b.auctionId == itemId).reverse());
-  const auction = auctions.find((a) => a.id == itemId);
   const userBid = useRef(null);
   const userBidButton = useRef(null);
   const timer = useRef(null);
-  const [countdown, setCountdown] = useState(auction.timer);
+  const [countdown, setCountdown] = useState(300);
   const warnMessage = (message) => {
     toast.warn(message, {
       position: "top-right",
@@ -33,29 +43,33 @@ function AuctionPage() {
     });
   }
 
-  const prevImg = () => { setImgIndex(imgIndex === 0 ? auction.images.length - 1 : imgIndex - 1) }
-  const nextImg = () => { setImgIndex(imgIndex === auction.images.length - 1 ? 0 : imgIndex + 1) }
+  const prevImg = () => { setImgIndex(imgIndex === 0 ? auction.product.images.map(i => i.url).length - 1 : imgIndex - 1) }
+  const nextImg = () => { setImgIndex(imgIndex === auction.product.images.map(i => i.url).length - 1 ? 0 : imgIndex + 1) }
 
   /** @type {AuctionList} */
   let auctionList;
   /** @type {Iterator} */
-  let auctionterator;
+  let auctionIterator;
 
   const goNextAuction = async () => {
-    auctionList = new ActiveAuctionList();
-    auctionterator = auctionList.createUpIterator();
-    auctionterator.setCurrentPosition(auction.id);
-    if (auctionterator.hasMore()){
-      navigate(`/auction/${auctionterator.getNext().id}`);
+    auctionList = new ActiveAuctionList(auctions);
+    auctionIterator = auctionList.createUpIterator();
+    auctionIterator.setCurrentPosition(auction.id);
+    const next = auctionIterator.getNext();
+    if (next) {
+      navigate(`/auction/${next.id}`);
+      setAuction(auctions.find(a => a.id == next.id));
     }
   }
 
   const goPrevAuction = async () => {
-    auctionList = new ActiveAuctionList();
-    auctionterator = auctionList.createDownIterator();
-    auctionterator.setCurrentPosition(auction.id);
-    if (auctionterator.hasMore()){
-      navigate(`/auction/${auctionterator.getNext().id}`);
+    auctionList = new ActiveAuctionList(auctions);
+    auctionIterator = auctionList.createDownIterator();
+    auctionIterator.setCurrentPosition(auction.id);
+    const next = auctionIterator.getNext();
+    if (next) {
+      navigate(`/auction/${next.id}`);
+      setAuction(auctions.find(a => a.id == next.id));
     }
   }
 
@@ -144,12 +158,12 @@ function AuctionPage() {
       </div>
 
       <div className="auction-container">
-        <h1>{auction.name}</h1>
+        <h1>{auction?.product.name}</h1>
         <p id="timer" ref={timer}>La subasta finalizará en: <b>{formatTime(countdown)}</b></p>
 
         <div className="imgs-container">
           <button id="left" onClick={prevImg}>{'🡰'}</button>
-          <img src={auction.images[imgIndex]} alt="Reloj" />
+          <img src={auction?.product.images.map(i => i.url)[imgIndex]} alt="Reloj" />
           <button id="right" onClick={nextImg}>{'🡲'}</button>
         </div>
         <div className="bidding-container">
@@ -168,11 +182,11 @@ function AuctionPage() {
 
         <div className="detail-container">
           <h3>Detalles del producto</h3>
-          <p><b>Fecha de incio de la subasta:</b> {auction.startDate}</p>
-          <p><b>Nombre:</b> {auction.name}</p>
-          <p><b>Descripción:</b> {auction.description}</p>
-          <p><b>Precio:</b> {auction.price}</p>
-          <p><b>Detalle:</b> {auction.details}</p>
+          <p><b>Fecha de incio de la subasta:</b> {auction?.startdate}</p>
+          <p><b>Nombre:</b> {auction?.product.name}</p>
+          <p><b>Descripción:</b> {auction?.product.description}</p>
+          <p><b>Precio:</b> {auction?.product.price}</p>
+          <p><b>Detalle:</b> {auction?.product.details}</p>
         </div>
 
       </div>
