@@ -1,12 +1,13 @@
 import React, { useRef, useContext } from "react";
 import * as Components from '../components/LogInComponents';
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 import { GlobalContext } from '../../utils/GlobalContext';
 import VerificationLog from "../VerificationLog";
 import VerificationSign from "../VerificationSign";
 import LogIn from "../LogIn";
 import SignUp from "../SignUp"; 
+import { Message } from "../../shared/messages/Message";
 
 function LogInPage() {
   const [signin, toggle] = React.useState('true');
@@ -21,6 +22,7 @@ function LogInPage() {
   const birthDateRef = useRef(null);
   const identificationRef = useRef(null);
   const addressRef = useRef(null);
+  const message = new Message();
 
   const logIn = async (event) => {
     event.preventDefault();
@@ -33,16 +35,7 @@ function LogInPage() {
       setUser(user);
       navigate('/landing');
     } else {
-      toast.error('Datos incorrectos o usuario inexistente.', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      message.error('Datos incorrectos o usuario inexistente.')
     }
   }
 
@@ -64,16 +57,7 @@ function LogInPage() {
       setUser(user);
       navigate('/landing');
     } else {
-      toast.error('Usuario ya existente.', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      message.error('Usuario ya existente.')
     }
   }
 

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -14,6 +14,7 @@ import { CreateMethod } from "../../shared/CreateMethod";
 import { AuctionModel } from "../../shared/models/AuctionModel";
 import { ProductModel } from "../../shared/models/ProductModel";
 import { useNavigate } from "react-router-dom";
+import { Message } from "../../shared/messages/Message";
 
 function PublishAuctionPage() {
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ function PublishAuctionPage() {
     const [urlImage, setUrlImage] = useState("");
     const [images, setImages] = useState([]);
     const { currentAuction, user } = useContext(GlobalContext);
+    const message = new Message();
 
     useEffect(() => {
         if (currentAuction) {
@@ -77,31 +79,13 @@ function PublishAuctionPage() {
             console.log(result);
 
             if (result) {
-                toast.success("Se ha publicado la subasta exitosamente.", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
+                message.success('Se ha publicado la subasta exitosamente.')
                 setTimeout(() => {
                     navigate('/home')
                 }, 2000);
             }
         } else {
-            toast.warn("Por favor completa todos los campos obligatorios.", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+            message.warn('Por favor completa todos los campos obligatorios.');
         }
     };
 
