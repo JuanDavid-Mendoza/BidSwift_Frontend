@@ -1,4 +1,6 @@
 import { AuctionParticipant } from "../../auctions/AuctionParticipant";
+import { UserModel } from "./UserModel";
+import { UpdateMethod } from "../UpdateMethod";
 
 export class AccountModel extends AuctionParticipant {
     /**
@@ -34,10 +36,14 @@ export class AccountModel extends AuctionParticipant {
      * @param {number} amount - La cantidad a pagar.
      * @returns {boolean} booleano indicando el exito o fracaso del pago
      */
-    payShipment(amount) {
+    async payShipment(amount) {
         if (this.balance >= amount) {
-          this.balance -= amount;
-          return true;
+
+            this.balance -= amount;
+            const userToUpdate = new UserModel(this.userId, null, null, null, null, null, null, null, this);
+            const result = await new UpdateMethod().execute('http://localhost:3030/users/update', userToUpdate);
+
+          return result != null;
         }
         return false;
     }

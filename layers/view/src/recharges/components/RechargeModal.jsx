@@ -87,7 +87,7 @@ const RechargeModal = ({ isOpen, onClose }) => {
             </div>
             <div className="modal-content">
                 <p>
-                    Saldo actual: <span>${balance.toFixed(2)}</span>
+                    Saldo actual: <span>${parseInt(user.account.balance).toFixed(2)}</span>
                 </p>
                 <div>
                     <label>

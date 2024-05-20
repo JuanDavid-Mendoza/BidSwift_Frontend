@@ -1,22 +1,59 @@
 import { useContext, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import Modal from "react-modal";
 import "./styles/ManageShipmentModal.css";
 import { GlobalContext } from "../../utils/GlobalContext";
 
 import { AbstractAccountModel } from "../../shared/models/AbstractAccountModel";
+import { AccountModel } from "../../shared/models/AccountModel";
 import {Benefit} from "../Benefit";
 import {FreeDelivery} from "../FreeDelivery";
 import {ReducedCost} from "../ReducedCost";
 
 const ManageShipmentModal = ({ isOpen, onClose, purchase }) => {
-    const { user, balance, setBalance } = useContext(GlobalContext);
-    const [amount, setAmount] = useState("");    
+    const { user } = useContext(GlobalContext);
+    const [address, setAddress] = useState("");    
 
     /** @type {AbstractAccountModel} */
     let account;
 
-    const handlePayShipment = () => {
+    const handlePayShipment = async () => {
+        if(!address) return;
 
+        account = new AccountModel(
+            user.account.id,
+            user.account.status,
+            user.account.reducedCost,
+            user.account.balance,
+            user.id,
+          );
+
+          if (user.account.status){
+            account = new FreeDelivery(account);
+
+          } else if (user.account.reducedCost){
+            account = new ReducedCost(account);
+          }
+
+          const success = await account.payShipment(purchase?.price * 0.01);
+          
+          if (success){
+              setAddress('');
+              onClose();
+              window.open(url, 'https://www.fedex.com/es-co/home.html');
+
+          } else{
+            toast.error("No se puede hacer este pago.", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+          }
     }
 
     const customStyles = {
@@ -51,13 +88,14 @@ const ManageShipmentModal = ({ isOpen, onClose, purchase }) => {
                         <p>Envio Gratis: {user?.account.status  ? 'Si' : 'No'}</p>
                     </div>
                     <p>
-                        Saldo actual: <span>${balance?.toFixed(2)}</span>
+                        Saldo actual: <span>${parseInt(user.account.balance).toFixed(2)}</span>
                     </p>
                 </div>
 
                 <div className="purchase-info">
                     <p><span>{purchase?.name}</span></p>
-                    <p>Precio: {purchase?.price}</p>
+                    <p>Precio: ${purchase?.price}</p>
+                    <p>Precio Envio: ${purchase?.price * 0.01}</p>
                 </div>
 
                 <div>
@@ -65,8 +103,8 @@ const ManageShipmentModal = ({ isOpen, onClose, purchase }) => {
                         Dirección Envío:
                         <input
                             type="text"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
                         />
                     </label>
                 </div>
@@ -76,6 +114,7 @@ const ManageShipmentModal = ({ isOpen, onClose, purchase }) => {
                     <button onClick={onClose}>Cancelar</button>
                 </div>
             </div>
+            <ToastContainer />
         </Modal>
     );
 };
