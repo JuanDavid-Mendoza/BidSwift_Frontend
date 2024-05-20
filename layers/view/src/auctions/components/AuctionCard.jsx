@@ -8,14 +8,21 @@ function AuctionCard({ auction }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (countdown > 0) {
-            const timer = setInterval(() => {
-                setCountdown(prevCountdown => prevCountdown - 1);
-            }, 1000);
+        const startDate = new Date(auction.startDate);
+        const currentDate = new Date();
 
-            return () => clearInterval(timer);
+        // Verifica si la subasta ha comenzado
+        if (currentDate.getTime() >= startDate.getTime()) {
+            // Si ha comenzado, inicia el temporizador
+            if (countdown > 0) {
+                const timer = setInterval(() => {
+                    setCountdown(prevCountdown => prevCountdown - 1);
+                }, 1000);
+
+                return () => clearInterval(timer);
+            }
         }
-    }, [countdown]);
+    }, [countdown, auction.startDate]);
 
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);

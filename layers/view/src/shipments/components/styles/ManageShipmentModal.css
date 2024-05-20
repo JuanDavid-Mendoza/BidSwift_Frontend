@@ -1,0 +1,128 @@
+
+.modal-header {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    background-color: #0aabb1;
+    color: #fff;
+}
+
+.modal-header h2 {
+    width: 90%;
+    text-align: center;
+    padding-left: 3rem;
+}
+
+.close-button {
+    width: 10%;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #fff;
+}
+
+.modal-content {
+    padding: 2rem 3rem;
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal-content p span {
+    color: #0aabb1;
+}
+.modal-content p, .modal-content span {
+    font-size: 1.5rem;
+} 
+
+.account-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.account-info .benefits p {
+    font-size: 1.2rem;
+}
+
+label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+button {
+    background-color: #0aabb1;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: none;
+    margin: 1rem;
+    padding: 10px;
+    text-align: center;
+    text-transform: capitalize;
+    width: 82%;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #fff;
+    color: #0aabb1;
+    border: solid 1px #0aabb1;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+input {
+    font-size: 1rem;
+    margin: 20px;
+    width: 60%;
+    border: none;
+    padding: 10px;
+    border-bottom: solid 1px #0aabb1;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 96%,
+        #0aabb1 4%
+    );
+    color: darken(#0aabb1, 20%);
+}
+
+.buttons {
+    display: flex;
+    margin-top: 1.8rem;
+}
+
+
+.modal-content select {
+    font-size: 1rem;
+    margin: 20px;
+    width: 60%;
+    border: none;
+    padding: 10px;
+    border-bottom: solid 1px #0aabb1;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 96%,
+        #0aabb1 4%
+    );
+    color: darken(#0aabb1, 20%);
+}
+
+/* Estilos para las opciones del select */
+.modal-content select option {
+    background-color: #fff; /* Fondo de las opciones */
+    color: #0aabb1; /* Color de texto de las opciones */
+    font-size: 1rem; /* Tamaño de fuente de las opciones */
+}
+
+/* Estilos para el hover de las opciones del select */
+.modal-content select option:hover {
+    background-color: #0aabb1; /* Cambio de color de fondo al pasar el cursor */
+    color: #fff; /* Cambio de color de texto al pasar el cursor */
+}

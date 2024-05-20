@@ -14,6 +14,8 @@ import { BidModel } from "../../shared/models/BidModel";
 import { AccountModel } from "../../shared/models/AccountModel";
 import { UserModel } from "../../shared/models/UserModel";
 import { PurchaseModel } from "../../shared/models/PurchaseModel";
+import { ActiveAuction } from "../ActiveAuction";
+import { CreatePurchaseProxy } from "../CreatePurchaseProxy";
 
 function AuctionPage() {
   const [imgIndex, setImgIndex] = useState(0);
@@ -24,10 +26,14 @@ function AuctionPage() {
   const [bidsHistory, setBidsHistory] = useState([]);
   const { user } = useContext(GlobalContext);
 
+  /** @type {ActiveAuction} */
+  let activeAuction;
+
   const getAuctions = async () => {
     const result = await new GetMethod().execute('http://localhost:3030/auctions/getAll');
     setAuctions(result);
     setAuction(result.find(a => a.id == itemId));
+    // setCountdown(parseInt(auction?.timer || 0));
   }
   const getBids = async () => {
     const result = await new GetMethod().execute(`http://localhost:3030/bids/getByAuctionId?auctionId=${itemId}`);
@@ -37,6 +43,9 @@ function AuctionPage() {
   useEffect(() => {
     getAuctions();
     getBids();
+
+    activeAuction = new ActiveAuction(auction);
+    activeAuction.addBidder(user.account);
   }, []);
 
   const userBid = useRef(null);
@@ -126,7 +135,7 @@ function AuctionPage() {
     );
     const auctionToUpdate = { id: itemId, endDate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'), state: 'Finalizada' }
 
-    const result = await new CreateMethod().execute('http://localhost:3030/purchases/create', purchase);
+    const result = await new CreatePurchaseProxy(new CreateMethod(), user.id).execute('http://localhost:3030/purchases/create', purchase)
     await new UpdateMethod().execute('http://localhost:3030/auctions/update', auctionToUpdate);
     return result;
   }
@@ -182,6 +191,8 @@ function AuctionPage() {
       }
       const userResult = await new UpdateMethod().execute('http://localhost:3030/users/update', userToUpdate);
       if (userResult) user.account.balance -= currentBid.bidValue;
+
+      activeAuction.makeBid(bidResult);
 
       toast.success('Puja exitosa.', {
         position: "top-right",

@@ -168,7 +168,7 @@ function PublishAuctionPage() {
 
                 <div className="container">
                     <h3>Especificación</h3>
-                    <input
+                    <textarea
                         type="text"
                         value={specification}
                         onChange={(e) => setSpecification(e.target.value)}

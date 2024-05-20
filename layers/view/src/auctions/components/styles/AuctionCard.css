@@ -45,6 +45,7 @@ h1 {
     position: absolute;
     top: 80%;
     width: 100%;
+    height: 100%;
     transition: box-shadow 0.3s ease-in-out, top 0.3s ease-in-out;
 }
 
@@ -56,7 +57,7 @@ h1 {
 
 .card:hover .details {
     box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
-    top: 30%;
+    top: 5%;
 }
 
 .card .details > .min-details,
