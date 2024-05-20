@@ -14,7 +14,6 @@ import { BidModel } from "../../shared/models/BidModel";
 import { AccountModel } from "../../shared/models/AccountModel";
 import { UserModel } from "../../shared/models/UserModel";
 import { PurchaseModel } from "../../shared/models/PurchaseModel";
-import { ActiveAuction } from "../ActiveAuction";
 import { CreatePurchaseProxy } from "../CreatePurchaseProxy";
 
 function AuctionPage() {
@@ -25,16 +24,20 @@ function AuctionPage() {
   const [auction, setAuction] = useState(null);
   const [bidsHistory, setBidsHistory] = useState([]);
   const { user } = useContext(GlobalContext);
-
-  /** @type {ActiveAuction} */
-  let activeAuction;
+  const userBid = useRef(null);
+  const userBidButton = useRef(null);
+  const state = useRef(null);
+  const auctionButton = useRef(null);
 
   const getAuctions = async () => {
     const result = await new GetMethod().execute('http://localhost:3030/auctions/getAll');
+    const currentAuction = result.find(a => a.id == itemId);
+    if (currentAuction.ownerid == user.account.id) auctionButton.current.style.visibility = 'visible';
+
     setAuctions(result);
-    setAuction(result.find(a => a.id == itemId));
-    // setCountdown(parseInt(auction?.timer || 0));
+    setAuction(currentAuction);
   }
+
   const getBids = async () => {
     const result = await new GetMethod().execute(`http://localhost:3030/bids/getByAuctionId?auctionId=${itemId}`);
     setBidsHistory(result.reverse());
@@ -43,17 +46,36 @@ function AuctionPage() {
   useEffect(() => {
     getAuctions();
     getBids();
-
-    activeAuction = new ActiveAuction(auction);
-    activeAuction.addBidder(user.account);
   }, []);
 
-  const userBid = useRef(null);
-  const userBidButton = useRef(null);
-  const timer = useRef(null);
-  const [countdown, setCountdown] = useState(20);
+  const successMessage = (message) => {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+
   const warnMessage = (message) => {
     toast.warn(message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+
+  const infoMessage = (message) => {
+    toast.info(message, {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -95,35 +117,38 @@ function AuctionPage() {
     }
   }
 
-  useEffect(() => {
-    if (countdown > 0) {
-      const timer = setInterval(() => {
-        setCountdown(prevCountdown => prevCountdown - 1);
-      }, 1000);
+  const doAuction = async (event) => {
+    event.stopPropagation();
+    if (auction.state === 'Terminada') {
+      warnMessage('La subasta ya ha terminado.');
+      return null;
+    }
 
-      return () => clearInterval(timer);
+    if (auction.state !== 'En proceso') {
+      auctionButton.current.innerText = 'Terminar Subasta';
+
+      const auctionToUpdate = { id: itemId, state: 'En proceso' }
+      await new UpdateMethod().execute('http://localhost:3030/auctions/update', auctionToUpdate);
+
+      auction.state = 'En proceso';
+      state.current.innerHTML = `La subasta está <b>en proceso</b>.`;
     } else {
-      toast.info('La subasta ha finalizado.', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      infoMessage('La subasta ha finalizado.');
+
       userBid.current.style.visibility = 'hidden';
       userBidButton.current.style.visibility = 'hidden';
       if (bidsHistory.length) {
         const purchaseResult = createPurchase();
-        if(purchaseResult)  timer.current.innerText = `${bidsHistory[0].usernames} ${bidsHistory[0].userlastnames} 
-                                      adquiere el producto por $${bidsHistory[0].bidvalue}`;
+        infoMessage(`${bidsHistory[0].usernames} ${bidsHistory[0].userlastnames} 
+        adquiere el producto por $${bidsHistory[0].bidvalue}`);
+
+        if (purchaseResult) state.current.innerHTML = `La subasta está <b>terminada</b>.`;
       } else {
-        timer.current.innerText = `Ha finalizado la subasta, no se realizaron pujas`;
+        infoMessage('Ha finalizado la subasta, no se realizaron pujas');
       }
     }
-  }, [countdown, bidsHistory]);
+
+  }
 
   const createPurchase = async () => {
     const purchase = new PurchaseModel(
@@ -133,20 +158,19 @@ function AuctionPage() {
       user.account.id,
       itemId,
     );
-    const auctionToUpdate = { id: itemId, endDate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'), state: 'Finalizada' }
+    const auctionToUpdate = { id: itemId, endDate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'), state: 'Terminada' }
 
     const result = await new CreatePurchaseProxy(new CreateMethod(), user.id).execute('http://localhost:3030/purchases/create', purchase)
     await new UpdateMethod().execute('http://localhost:3030/auctions/update', auctionToUpdate);
     return result;
   }
 
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}m ${remainingSeconds}s`;
-  };
-
   const addBid = async () => {
+    if (auction.state !== 'En proceso') {
+      warnMessage('No puedes realizar pujas por el momento.');
+      return null;
+    }
+
     const userBidValue = parseInt(userBid.current.value)
     let isCorrect = true;
 
@@ -192,18 +216,7 @@ function AuctionPage() {
       const userResult = await new UpdateMethod().execute('http://localhost:3030/users/update', userToUpdate);
       if (userResult) user.account.balance -= currentBid.bidValue;
 
-      activeAuction.makeBid(bidResult);
-
-      toast.success('Puja exitosa.', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      successMessage('Puja exitosa.');
     }
   }
 
@@ -218,7 +231,7 @@ function AuctionPage() {
 
       <div className="auction-container">
         <h1>{auction?.product.name}</h1>
-        <p id="timer" ref={timer}>La subasta finalizará en: <b>{formatTime(countdown)}</b></p>
+        <p id="timer" ref={state}>La subasta está <b>{auction ? (auction.state).toLowerCase() : ''}</b>.</p>
 
         <div className="imgs-container">
           <button id="left" onClick={prevImg}>{'🡰'}</button>
@@ -249,6 +262,10 @@ function AuctionPage() {
         </div>
 
       </div>
+
+      <button id="start-end-auction" ref={auctionButton} onClick={doAuction}>
+        {auction?.state === 'En espera' ? 'Iniciar Subasta' : 'Terminar Subasta'}
+      </button>
 
       <Footer />
       <ToastContainer />

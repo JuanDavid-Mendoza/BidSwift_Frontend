@@ -12,13 +12,14 @@
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
-#nav-left{
+#nav-left {
   position: absolute;
   top: 350px;
   width: 50px;
   left: 20px;
 }
-#nav-right{
+
+#nav-right {
   position: absolute;
   width: 50px;
   top: 350px;
@@ -40,8 +41,8 @@
   color: #0aabb1;
 }
 
-.auction-container h3 { 
-  margin: 0 auto 10px auto; 
+.auction-container h3 {
+  margin: 0 auto 10px auto;
   color: #0aabb1;
 }
 
@@ -111,8 +112,8 @@
   flex-direction: column;
 }
 
-.bids-container { 
-  overflow: auto; 
+.bids-container {
+  overflow: auto;
   background-color: #f0fafb;
   border-radius: 5px;
   height: 100%;
@@ -128,10 +129,12 @@
   border-radius: 10px;
 }
 
-.history-container p { margin: 15px auto 0 0; }
+.history-container p {
+  margin: 15px auto 0 0;
+}
 
 .bid-up-container {
-  width: 50%;
+  width: 65%;
   display: flex;
   justify-content: space-evenly;
   margin-bottom: 20px;
@@ -139,7 +142,9 @@
 
 .bid-up-container input {
   border-radius: 5px;
-  width: 60%;
+  margin: 0;
+  width: 50%;
+  height: 14px;
   border: 1px solid #0aabb1;
   background-color: #f0fafb;
 }
@@ -147,12 +152,14 @@
 .bid-up-container button {
   border-radius: 10px;
   padding: 7px;
+  width: 30%;
   font-size: 15px;
   font-weight: bold;
   border: 1px solid white;
   background-color: #0aabb1;
   color: white;
   transition: all 300ms;
+  margin: 0;
 }
 
 .bid-up-container button:hover {
@@ -168,4 +175,16 @@
   background-color: white;
   border-radius: 20px;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.25);
+}
+
+/* Botón de inicio y fin de la subasta */
+#start-end-auction {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 200px;
+  border: 2px solid white;
+  font-size: 20px;
+  margin: 0;
+  visibility: hidden;
 }

@@ -1,34 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { parseISO, format } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 
 import "./styles/AuctionCard.css"
 
 function AuctionCard({ auction }) {
-    const [countdown, setCountdown] = useState(auction.timer);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const startDate = new Date(auction.startDate);
-        const currentDate = new Date();
-
-        // Verifica si la subasta ha comenzado
-        if (currentDate.getTime() >= startDate.getTime()) {
-            // Si ha comenzado, inicia el temporizador
-            if (countdown > 0) {
-                const timer = setInterval(() => {
-                    setCountdown(prevCountdown => prevCountdown - 1);
-                }, 1000);
-
-                return () => clearInterval(timer);
-            }
-        }
-    }, [countdown, auction.startDate]);
-
-    const formatTime = (seconds) => {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-        return `${minutes}m ${remainingSeconds}s`;
-    };
 
     return (
         <div className="card">
@@ -48,8 +25,8 @@ function AuctionCard({ auction }) {
 
                 <div className="all-details">
                     <p>{auction.description}</p>
-                    <p>La subasta inicia el <b>{auction.startDate}</b></p>
-                    <p>La subasta finalizará en: <b>{formatTime(countdown)}</b></p>
+                    <p>La subasta inicia el <b>{format(toZonedTime(parseISO(auction.startDate), 'America/Bogota'), 'yyyy-MM-dd HH:mm:ss')}</b></p>
+                    {/* <p>La subasta finalizará en: <b>{formatTime(countdown)}</b></p> */}
                     <p>Precio actual: <b>${auction.price}</b></p>
                 </div>
                 <a className="btn" onClick={() => navigate(`/auction/${auction.id}`)}>

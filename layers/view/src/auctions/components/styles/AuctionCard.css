@@ -57,7 +57,7 @@ h1 {
 
 .card:hover .details {
     box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
-    top: 5%;
+    top: 30%;
 }
 
 .card .details > .min-details,
