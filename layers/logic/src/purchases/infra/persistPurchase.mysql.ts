@@ -11,4 +11,13 @@ export default class PersistPurchaseMysql {
 
     return createdPurchase.id;
   }
+
+  public async updateBalance(newBalance: number, accountId: number): Promise<number> {
+    const createdPurchase = await DBConnection.getInstance().executeQuery(
+      `UPDATE "Account" SET balance = (balance - ${newBalance}) WHERE id = ${accountId}
+        RETURNING id`,
+    ).then(r => r.rows[0]);
+
+    return createdPurchase.id;
+  }
 }

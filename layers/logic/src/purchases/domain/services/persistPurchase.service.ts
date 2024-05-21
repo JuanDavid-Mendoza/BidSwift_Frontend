@@ -10,6 +10,7 @@ export default class PersistPurchaseService {
 
   public async create(data: PurchaseModel): Promise<number> {
     const createdPurchase: number = await this.persistPurchase.create(data);
+    await this.persistPurchase.updateBalance(data.finalValue, data.accountId);
     return createdPurchase;
   }
 }

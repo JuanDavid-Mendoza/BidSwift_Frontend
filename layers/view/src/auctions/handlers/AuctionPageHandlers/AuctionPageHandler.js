@@ -79,6 +79,7 @@ export class AuctionPageHandler extends PageHandler {
         data.message.info(`${data.bidsHistory[0].usernames} ${data.bidsHistory[0].userlastnames} 
         adquiere el producto por $${data.bidsHistory[0].bidvalue}`);
 
+
         if (purchaseResult) data.state.current.innerHTML = `La subasta está <b>terminada</b>.`;
       } else {
         data.message.info('Ha finalizado la subasta, no se realizaron pujas');
@@ -91,7 +92,7 @@ export class AuctionPageHandler extends PageHandler {
       null,
       data.bidsHistory[0].bidvalue,
       format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-      data.user.account.id,
+      data.bidsHistory[0].accountid,
       data.itemId,
     );
     const auctionToUpdate = { id: data.itemId, endDate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'), state: 'Terminada' }

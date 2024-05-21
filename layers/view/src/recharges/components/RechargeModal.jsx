@@ -10,7 +10,7 @@ import { PayPalRechargeMethod } from "../PaypalRechargeMethod";
 import { GlobalContext } from "../../utils/GlobalContext";
 
 const RechargeModal = ({ isOpen, onClose }) => {
-    const { user, balance, setBalance } = useContext(GlobalContext);
+    const { user } = useContext(GlobalContext);
     const [amount, setAmount] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("");
     const [username, setUsername] = useState("");
@@ -34,7 +34,7 @@ const RechargeModal = ({ isOpen, onClose }) => {
         }
 
         const url = await rechargeMethod.recharge(parseFloat(amount), user);
-        setBalance(parseFloat(user.account.balance) + parseFloat(amount))
+        user.account.balance = `${parseFloat(user.account.balance) + parseFloat(amount)}`;
         setAmount('');
         setPaymentMethod('');
         setUsername('');
@@ -87,7 +87,7 @@ const RechargeModal = ({ isOpen, onClose }) => {
             </div>
             <div className="modal-content">
                 <p>
-                    Saldo actual: <span>${parseInt(user.account.balance).toFixed(2)}</span>
+                    Saldo actual: <span>${user.account.balance}</span>
                 </p>
                 <div>
                     <label>
